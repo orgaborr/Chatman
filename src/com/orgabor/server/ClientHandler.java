@@ -30,4 +30,15 @@ public class ClientHandler implements Runnable {
 		
 	}
 	
+	private void stop() {
+		try {
+			input.close();
+			output.close();
+			clientSocket.close();
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
