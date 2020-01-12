@@ -11,7 +11,7 @@
       <TextArea id="chatTextArea" editable="false" prefHeight="325.0" prefWidth="400.0" BorderPane.alignment="CENTER" />
    </center>
    <bottom>
-      <HBox prefHeight="83.0" prefWidth="400.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="75.0" prefWidth="400.0" BorderPane.alignment="CENTER">
          <children>
             <TextField id="messageField" prefHeight="25.0" prefWidth="350.0" promptText="Type here..." />
             <Button id="sendButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" text="Send" />
