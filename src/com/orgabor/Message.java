@@ -1,8 +1,12 @@
 package com.orgabor;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable{
 	private String messageText;
 	private String date;
+	
+	private static final long serialVersionUID = 1L;
 	
 	public String getMessageText() {
 		return messageText;
