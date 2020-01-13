@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
 			try {
 				Message message = (Message) input.readObject();
 				
-				message.setDate(getServerTime());
+				message.setTimeSent(getServerTime());
 				
 				output.writeObject(message);
 				

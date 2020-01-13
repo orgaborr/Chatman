@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable{
 	private String messageText;
-	private String date;
+	private String timeSent;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -14,11 +14,11 @@ public class Message implements Serializable{
 	public void setMessageText(String messageText) {
 		this.messageText = messageText;
 	}
-	public String getDate() {
-		return date;
+	public String getTimeSent() {
+		return timeSent;
 	}
-	public void setDate(String date) {
-		this.date = date;
+	public void setTimeSent(String date) {
+		this.timeSent = date;
 	}
 	
 	
