@@ -11,6 +11,11 @@ public class ClientHandler implements Runnable {
 	private BufferedReader input;
 	private PrintWriter output;
 	
+	private boolean isRunning;
+	
+	private String inputLine;
+	private String outputLine;
+	
 	public ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		try {
@@ -25,9 +30,23 @@ public class ClientHandler implements Runnable {
 
 	@Override
 	public void run() {
-		
-		
-		
+		isRunning = true;
+
+		while(isRunning) {
+			try {
+				inputLine = input.readLine();
+				
+				
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			if(!clientSocket.isConnected()) {
+				stop();
+				isRunning = false;
+			}
+		}
 	}
 	
 	private void stop() {
