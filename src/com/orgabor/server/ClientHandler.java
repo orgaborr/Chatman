@@ -38,15 +38,15 @@ public class ClientHandler implements Runnable {
 				
 				output.writeObject(message);
 				
+				if(!clientSocket.isConnected()) {
+					isRunning = false;
+					stop();	
+				}
+				
 			} catch(IOException e) {
 				e.printStackTrace();
 			} catch(ClassNotFoundException e) {
 				e.printStackTrace();
-			}
-			
-			if(!clientSocket.isConnected()) {
-				stop();
-				isRunning = false;
 			}
 		}
 	}
@@ -56,14 +56,9 @@ public class ClientHandler implements Runnable {
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 	
-	private void stop() {
-		try {
-			input.close();
-			output.close();
-			clientSocket.close();
-			
-		} catch(IOException e) {
-			e.printStackTrace();
-		}
+	private void stop() throws IOException {
+		input.close();
+		output.close();
+		clientSocket.close();
 	}
 }

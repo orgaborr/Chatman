@@ -8,18 +8,18 @@ public class Message implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	public Message(String messageText) {
+		this.messageText = messageText;
+	}
+
 	public String getMessageText() {
 		return messageText;
 	}
-	public void setMessageText(String messageText) {
-		this.messageText = messageText;
-	}
+
 	public String getTimeSent() {
 		return timeSent;
 	}
 	public void setTimeSent(String date) {
 		this.timeSent = date;
-	}
-	
-	
+	}	
 }
