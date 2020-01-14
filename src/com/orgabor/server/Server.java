@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server {
-	private ServerSocket serverSocket;
+	private static ServerSocket serverSocket;
 	
-	void startServer(int port) {
+	public static void startServer(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
 			
