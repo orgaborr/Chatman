@@ -2,7 +2,7 @@ package com.orgabor;
 
 import java.io.Serializable;
 
-public class Message implements Serializable{
+public class Message implements Serializable {
 	private String messageText;
 	private String timeSent;
 	

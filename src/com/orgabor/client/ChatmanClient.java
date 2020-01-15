@@ -10,7 +10,7 @@ public class ChatmanClient extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("ChatmanClient.fxml"));
+			Parent root = FXMLLoader.load(ClientController.class.getResource("ChatmanClient.fxml"));
 			primaryStage.setTitle("Chatman");
 			primaryStage.setScene(new Scene(root, 400, 300));
 			primaryStage.show();

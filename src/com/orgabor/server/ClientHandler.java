@@ -27,7 +27,8 @@ public class ClientHandler implements Runnable {
 	@Override
 	public void run() {
 		isRunning = true;
-
+		
+		
 		while(isRunning) {
 			try {
 				System.out.println("CliendHandler started");

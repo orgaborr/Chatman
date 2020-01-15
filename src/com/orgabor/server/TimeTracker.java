@@ -5,10 +5,6 @@ import java.util.Calendar;
 
 public class TimeTracker {
 	
-	static String getCompleteServerTime() {
-		return getServerDate() + " " + getServerTime();
-	}
-	
 	static String getServerTime() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		return dateFormat.format(Calendar.getInstance().getTime());
