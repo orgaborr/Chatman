@@ -22,6 +22,5 @@ public class ChatmanServer extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		Server.startServer(5678);
 	}
 }

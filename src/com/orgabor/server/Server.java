@@ -6,11 +6,13 @@ import java.net.ServerSocket;
 public class Server {
 	private static ServerSocket serverSocket;
 	
-	public static void startServer(int port) {
+	private static boolean isRunning = true;
+	
+	static void startServer(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
 			
-			while(true) {
+			while(isRunning) {
 				new Thread(new ClientHandler(serverSocket.accept())).start();
 			}
 			
