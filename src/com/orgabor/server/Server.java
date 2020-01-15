@@ -3,15 +3,17 @@ package com.orgabor.server;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class Server {
+public class Server implements Runnable {
 	private ServerSocket serverSocket;
+	private int port = 5678;
 	private static Server server = new Server();
 	
 	private boolean isRunning = true;
 	
 	private Server() {}
 	
-	void startServer(int port) {
+	@Override
+	public void run() {
 		try {
 			serverSocket = new ServerSocket(port);
 			
@@ -28,6 +30,10 @@ public class Server {
 	
 	static Server getInstance() {
 		return server;
+	}
+	
+	void startServer(int port) {
+		
 	}
 	
 	void setIsRunning(boolean state) {

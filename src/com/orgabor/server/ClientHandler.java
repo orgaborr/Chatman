@@ -32,6 +32,8 @@ public class ClientHandler implements Runnable {
 
 		while(isRunning) {
 			try {
+				System.out.println("CliendHandler started");
+				
 				Message message = (Message) input.readObject();
 				
 				message.setTimeSent(getServerTime());

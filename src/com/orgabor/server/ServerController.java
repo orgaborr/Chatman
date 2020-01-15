@@ -9,7 +9,7 @@ public class ServerController {
 	
 	@FXML
 	public void initialize() {
+		new Thread(Server.getInstance()).start();
 		textArea.setText("Server initialized");
-		Server.getInstance().startServer(5678);
 	}
 }
