@@ -22,6 +22,7 @@ public class ChatmanClient extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
+		Client.getInstance().closeConnections();
 	}
 
 	

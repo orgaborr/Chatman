@@ -6,12 +6,15 @@ import java.net.SocketException;
 
 public class Server implements Runnable {
 	private ServerSocket serverSocket;
-	private int port = 5678;
-	private static Server server = new Server();
+	private static int port;
 	
 	private boolean isRunning = true;
 	
-	private Server() {}
+	private static Server server = new Server(5678);
+	
+	private Server(int port) {
+		Server.port = port;
+	}
 	
 	@Override
 	public void run() {
@@ -32,10 +35,6 @@ public class Server implements Runnable {
 		} 
 	}
 	
-	static Server getInstance() {
-		return server;
-	}
-	
 	void closeServer() {
 		try {
 			serverSocket.close();
@@ -44,5 +43,9 @@ public class Server implements Runnable {
 		}
 		
 		isRunning = false;
+	}
+	
+	static Server getInstance() {
+		return server;
 	}
 }
