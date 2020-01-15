@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import com.orgabor.Message;
 
@@ -36,7 +34,7 @@ public class ClientHandler implements Runnable {
 				
 				Message message = (Message) input.readObject();
 				
-				message.setTimeSent(getServerTime());
+				message.setTimeSent(TimeTracker.getServerTime());
 				
 				output.writeObject(message);
 				
@@ -53,10 +51,7 @@ public class ClientHandler implements Runnable {
 		}
 	}
 	
-	private static String getServerTime() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:ss");
-		return dateFormat.format(Calendar.getInstance().getTime());
-	}
+	
 	
 	private void stop() throws IOException {
 		input.close();

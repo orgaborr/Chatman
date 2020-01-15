@@ -10,6 +10,6 @@ public class ServerController {
 	@FXML
 	public void initialize() {
 		new Thread(Server.getInstance()).start();
-		textArea.setText("Server initialized");
+		textArea.setText(TimeTracker.getCompleteServerTime() + " Server initialized");
 	}
 }

@@ -25,7 +25,7 @@ public class Server implements Runnable {
 			}
 			
 		} catch (SocketException e) {
-			e.printStackTrace();
+			System.out.println("Server closed down");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
@@ -35,11 +35,7 @@ public class Server implements Runnable {
 		return server;
 	}
 	
-	void startServer(int port) {
-		
-	}
-	
-	void stopServer() {
+	void closeServer() {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
