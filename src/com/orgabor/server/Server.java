@@ -4,13 +4,18 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 public class Server {
-	private static ServerSocket serverSocket;
+	private ServerSocket serverSocket;
+	private static Server server = new Server();
 	
-	private static boolean isRunning = true;
+	private boolean isRunning = true;
 	
-	static void startServer(int port) {
+	private Server() {}
+	
+	void startServer(int port) {
 		try {
 			serverSocket = new ServerSocket(port);
+			
+			System.out.println("Server running");
 			
 			while(isRunning) {
 				new Thread(new ClientHandler(serverSocket.accept())).start();
@@ -19,6 +24,13 @@ public class Server {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	static Server getInstance() {
+		return server;
+	}
+	
+	void setIsRunning(boolean state) {
+		isRunning = state;
 	}
 }

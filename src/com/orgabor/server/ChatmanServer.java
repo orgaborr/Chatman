@@ -10,10 +10,9 @@ public class ChatmanServer extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			Parent root = FXMLLoader.load(ServerController.class.getResource("ChatmanServer.fxml"));
 			primaryStage.setTitle("Chatman Server");
-			Parent root = FXMLLoader.load(getClass().getResource("ChatmanServer.fxml"));
-			Scene scene = new Scene(root,300,400);
-			primaryStage.setScene(scene);
+			primaryStage.setScene(new Scene(root,300,400));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

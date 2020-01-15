@@ -10,10 +10,9 @@ public class ChatmanClient extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
-			primaryStage.setTitle("Chatman");
 			Parent root = FXMLLoader.load(getClass().getResource("ChatmanClient.fxml"));
-			Scene scene = new Scene(root, 400, 300);
-			primaryStage.setScene(scene);
+			primaryStage.setTitle("Chatman");
+			primaryStage.setScene(new Scene(root, 400, 300));
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

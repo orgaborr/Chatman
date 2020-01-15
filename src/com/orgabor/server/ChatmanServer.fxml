@@ -4,9 +4,10 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane fx:controller="com.orgabor.server.ServerController" xmlns="http://javafx.com/javafx/8.0.221" xmlns:fx="http://javafx.com/fxml/1"
+			maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" >
    <center>
-      <TextArea id="textArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Client logins" BorderPane.alignment="CENTER" />
+      <TextArea fx:id="textArea" editable="false" prefHeight="200.0" prefWidth="200.0" promptText="Client logins" BorderPane.alignment="CENTER" />
    </center>
    <opaqueInsets>
       <Insets />
