@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.orgabor.Message;
+import com.orgabor.TimeTracker;
 
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
@@ -27,15 +28,12 @@ public class ClientHandler implements Runnable {
 	@Override
 	public void run() {
 		isRunning = true;
-		
-		
+				
 		while(isRunning) {
 			try {
 				System.out.println("CliendHandler started");
 				
 				Message message = (Message) input.readObject();
-				
-				message.setTimeSent(TimeTracker.getServerTime());
 				
 				output.writeObject(message);
 				

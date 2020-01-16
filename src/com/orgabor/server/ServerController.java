@@ -1,5 +1,7 @@
 package com.orgabor.server;
 
+import com.orgabor.TimeTracker;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 
@@ -10,7 +12,7 @@ public class ServerController {
 	@FXML
 	public void initialize() {
 		new Thread(Server.getInstance()).start();
-		textArea.setText(TimeTracker.getServerDate() + "\n" +
-						 TimeTracker.getServerTime() + " Server initialized");
+		textArea.setText(TimeTracker.getDate() + "\n" +
+						 TimeTracker.getTime() + " Server initialized");
 	}
 }

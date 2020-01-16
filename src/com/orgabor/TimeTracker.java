@@ -1,17 +1,17 @@
-package com.orgabor.server;
+package com.orgabor;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class TimeTracker {
 	
-	static String getServerTime() {
+	public static String getTime() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 	
-	static String getServerDate() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+	public static String getDate() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return dateFormat.format(Calendar.getInstance().getTime());
 	}
 }
