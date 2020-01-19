@@ -21,7 +21,6 @@ public class ClientController {
 	
 	@FXML
 	void printMessage(String text) {
-		text = chatTextArea.getText() + "\n" + text;
-		chatTextArea.setText(text);
+		chatTextArea.appendText(text + "\n");
 	}
 }

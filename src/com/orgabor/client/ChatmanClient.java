@@ -1,5 +1,7 @@
 package com.orgabor.client;
 
+import com.orgabor.server.Server;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +16,9 @@ public class ChatmanClient extends Application {
 			primaryStage.setTitle("Chatman");
 			primaryStage.setScene(new Scene(root, 400, 300));
 			primaryStage.show();
+			
+			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -22,7 +27,6 @@ public class ChatmanClient extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		Client.getInstance().closeConnections();
 	}
 
 	

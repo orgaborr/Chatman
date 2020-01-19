@@ -29,16 +29,16 @@ public class Client {
 	}
 	
 	void listen() {
-		while(true) {
-			try {
+		try {
+			while(true) {
 				Message message = (Message) input.readObject();
 				incoming = message.getTimeSent() + message.getMessageText();
-				
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

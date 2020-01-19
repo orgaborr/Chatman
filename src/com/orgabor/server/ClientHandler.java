@@ -50,8 +50,6 @@ public class ClientHandler implements Runnable {
 		}
 	}
 	
-	
-	
 	private void stop() throws IOException {
 		input.close();
 		output.close();

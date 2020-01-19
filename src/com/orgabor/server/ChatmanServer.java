@@ -14,6 +14,9 @@ public class ChatmanServer extends Application {
 			primaryStage.setTitle("Chatman Server");
 			primaryStage.setScene(new Scene(root,300,400));
 			primaryStage.show();
+			
+			primaryStage.setOnCloseRequest(e -> Server.getInstance().closeConnections());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -21,6 +24,5 @@ public class ChatmanServer extends Application {
 	
 	public static void main(String[] args) {
 		launch(args);
-		Server.getInstance().closeServer();
 	}
 }

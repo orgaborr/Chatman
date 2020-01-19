@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
 
-public class Server implements Runnable {
+public class Server {
 	private ServerSocket serverSocket;
 	private static int port;
 	
@@ -16,26 +16,27 @@ public class Server implements Runnable {
 		Server.port = port;
 	}
 	
-	@Override
-	public void run() {
-		try {
-			serverSocket = new ServerSocket(port);
-			
-			System.out.println("Server running");
-			
-			while(isRunning) {
-				new Thread(new ClientHandler(serverSocket.accept())).start();
-				System.out.println("Client connected");
-			}
-			
-		} catch (SocketException e) {
-			System.out.println("Server closed down");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+	void runServer() {
+		new Thread(() ->  {
+			try {
+				serverSocket = new ServerSocket(port);
+				
+				System.out.println("Server running");
+				
+				while(isRunning) {
+					new Thread(new ClientHandler(serverSocket.accept())).start();
+					System.out.println("Client connected");
+				}
+				
+			} catch (SocketException e) {
+				System.out.println("Server closed down");
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		});
 	}
 	
-	void closeServer() {
+	void closeConnections() {
 		try {
 			serverSocket.close();
 		} catch (IOException e) {
