@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.orgabor.Message;
 
@@ -29,19 +30,24 @@ public class Client {
 	}
 	
 	void listen() {
-		isListening = true;
-		try {
-			while(isListening) {
-				input = new ObjectInputStream(clientSocket.getInputStream());
-				Message message = (Message) input.readObject();
-				incoming = message.getTimeSent() + message.getMessageText();
-			}
+		new Thread(() -> {
+			isListening = true;
+			try {
+				System.out.println("listen method started");
+				while(isListening) {
+					input = new ObjectInputStream(clientSocket.getInputStream());
+					Message message = (Message) input.readObject();
+					incoming = message.getTimeSent() + message.getMessageText();
+				}
 
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			} catch (SocketException e) {
+				System.out.println("The socket was closed: " + e.getMessage());		
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}).start();
 	}
 
 	void closeConnections() {
@@ -52,7 +58,7 @@ public class Client {
 			clientSocket.close();
 			
 		} catch (NullPointerException e) {
-			System.out.println("Connection was not established");
+			System.out.println("Connection was not established, therefore could not be closed");
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 

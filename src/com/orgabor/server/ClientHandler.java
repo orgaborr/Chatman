@@ -13,8 +13,6 @@ public class ClientHandler implements Runnable {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
-	private boolean isRunning;
-	
 	public ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		try {
@@ -27,27 +25,28 @@ public class ClientHandler implements Runnable {
 
 	@Override
 	public void run() {
-		isRunning = true;
-				
-		while(isRunning) {
-			try {
-				System.out.println("CliendHandler started");
-				
-				Message message = (Message) input.readObject();
-				
-				output.writeObject(message);
+		boolean isRunning = true;
+
+		try {
+			System.out.println("CliendHandler started");
+			while(isRunning) {	
+				if(input.available() > 0) {
+					Message message = (Message) input.readObject();
+					output.writeObject(message);
+				}
 				
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
 					stop();	
 				}
-				
-			} catch(IOException e) {
-				e.printStackTrace();
-			} catch(ClassNotFoundException e) {
-				e.printStackTrace();
 			}
+
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
+			System.out.println("Class not found: " + e.getMessage());
 		}
+
 	}
 	
 	private void stop() throws IOException {
