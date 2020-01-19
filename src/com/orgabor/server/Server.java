@@ -1,51 +1,27 @@
 package com.orgabor.server;
 
-import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.SocketException;
 
-public class Server implements Runnable {
+public class Server {
 	private ServerSocket serverSocket;
-	private static int port;
 	
-	private boolean isRunning = true;
-	
-	private static Server server = new Server(5678);
-	
-	private Server(int port) {
-		Server.port = port;
-	}
-	
-	@Override
-	public void run() {
-		try {
-			serverSocket = new ServerSocket(port);
+	Server(int port) {
+		try (ServerSocket socket = new ServerSocket(port)) {
+			this.serverSocket = socket;
 			
-			System.out.println("Server running");
+			startServer();
 			
-			while(isRunning) {
-				new Thread(new ClientHandler(serverSocket.accept())).start();
-				System.out.println("Client connected");
-			}
-			
-		} catch (SocketException e) {
-			System.out.println("Server closed down");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
-	}
-	
-	void closeServer() {
-		try {
-			serverSocket.close();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		isRunning = false;
 	}
 	
-	static Server getInstance() {
-		return server;
+	public void startServer() throws Exception {
+			System.out.println("Server running");
+			
+			while(true) {
+				new Thread(new ClientHandler(serverSocket.accept())).start();
+				System.out.println("Client connected");
+		}
 	}
 }

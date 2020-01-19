@@ -1,12 +1,10 @@
 package com.orgabor.server;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.orgabor.Message;
-import com.orgabor.TimeTracker;
 
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
@@ -15,46 +13,39 @@ public class ClientHandler implements Runnable {
 	
 	private boolean isRunning;
 	
-	public ClientHandler(Socket clientSocket) {
-		this.clientSocket = clientSocket;
-		try {
-			this.input = new ObjectInputStream(clientSocket.getInputStream());
-			this.output = new ObjectOutputStream(clientSocket.getOutputStream());
-		} catch(IOException e) {
+	public ClientHandler(Socket acceptedSocket) {
+		try (Socket socket = acceptedSocket;
+			 ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
+			 ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream())) {
+			
+			this.clientSocket = socket;
+			this.output = out;
+			this.input = in;
+			
+		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	@Override
 	public void run() {
-		isRunning = true;
-				
-		while(isRunning) {
-			try {
+		try {
+
+			isRunning = true;
+			while(isRunning) {
 				System.out.println("CliendHandler started");
-				
-				Message message = (Message) input.readObject();
-				
-				output.writeObject(message);
-				
+
+					Message message = (Message) input.readObject();
+
+					output.writeObject(message);
+						
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
-					stop();	
 				}
-				
-			} catch(IOException e) {
-				e.printStackTrace();
-			} catch(ClassNotFoundException e) {
-				e.printStackTrace();
 			}
+			
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
-	}
-	
-	
-	
-	private void stop() throws IOException {
-		input.close();
-		output.close();
-		clientSocket.close();
 	}
 }

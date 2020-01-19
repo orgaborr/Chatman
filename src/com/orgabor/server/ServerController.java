@@ -11,7 +11,7 @@ public class ServerController {
 	
 	@FXML
 	public void initialize() {
-		new Thread(Server.getInstance()).start();
+		new Server(5678);
 		textArea.setText(TimeTracker.getDate() + "\n" +
 						 TimeTracker.getTime() + " Server initialized");
 	}

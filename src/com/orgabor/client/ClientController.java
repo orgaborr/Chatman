@@ -14,14 +14,12 @@ public class ClientController {
 	private Button sendButton;
 	
 	public void initialize() {
-		Client.getInstance().listen();
+		new Client("localhost", 5678);
 		printMessage("Connected to server");
-		printMessage("test message");
 	}
 	
 	@FXML
 	void printMessage(String text) {
-		text = chatTextArea.getText() + "\n" + text;
-		chatTextArea.setText(text);
+		chatTextArea.appendText(text + "\n");
 	}
 }
