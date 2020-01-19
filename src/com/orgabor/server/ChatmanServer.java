@@ -16,7 +16,7 @@ public class ChatmanServer extends Application {
 			primaryStage.show();
 			
 			primaryStage.setOnCloseRequest(e -> Server.getInstance().closeConnections());
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}

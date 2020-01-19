@@ -14,6 +14,7 @@ public class Server {
 	
 	private Server(int port) {
 		Server.port = port;
+		System.out.println("Server instantiated");
 	}
 	
 	void runServer() {
@@ -33,11 +34,12 @@ public class Server {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} 
-		});
+		}).start();
 	}
 	
 	void closeConnections() {
 		try {
+			System.out.println("Server closeConnections called");
 			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -47,6 +49,7 @@ public class Server {
 	}
 	
 	static Server getInstance() {
+		System.out.println("Server getInstance called");
 		return server;
 	}
 }

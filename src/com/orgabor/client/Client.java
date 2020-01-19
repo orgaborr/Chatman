@@ -12,6 +12,7 @@ public class Client {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
+	private boolean isListening;
 	private String incoming;
 	
 	//ip 92.249.164.76
@@ -20,7 +21,6 @@ public class Client {
 	private Client(String ip, int port) {
 		try {
 			clientSocket = new Socket(ip, port);
-			input = new ObjectInputStream(clientSocket.getInputStream());
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 		} catch (IOException e) {
@@ -29,8 +29,10 @@ public class Client {
 	}
 	
 	void listen() {
+		isListening = true;
 		try {
-			while(true) {
+			while(isListening) {
+				input = new ObjectInputStream(clientSocket.getInputStream());
 				Message message = (Message) input.readObject();
 				incoming = message.getTimeSent() + message.getMessageText();
 			}
@@ -44,6 +46,7 @@ public class Client {
 
 	void closeConnections() {
 		try {
+			isListening = false;
 			input.close();
 			output.close();
 			clientSocket.close();
