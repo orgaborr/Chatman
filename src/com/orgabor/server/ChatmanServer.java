@@ -12,7 +12,7 @@ public class ChatmanServer extends Application {
 		try {
 			Parent root = FXMLLoader.load(ServerController.class.getResource("ChatmanServer.fxml"));
 			primaryStage.setTitle("Chatman Server");
-			primaryStage.setScene(new Scene(root,300,400));
+			primaryStage.setScene(new Scene(root,300,400));		
 			primaryStage.show();
 			
 			primaryStage.setOnCloseRequest(e -> Server.getInstance().closeConnections());

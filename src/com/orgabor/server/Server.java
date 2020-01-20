@@ -25,7 +25,9 @@ public class Server {
 				System.out.println("Server running");
 				
 				while(isRunning) {
-					new Thread(new ClientHandler(serverSocket.accept())).start();
+					Thread handleClient = new Thread(new ClientHandler(serverSocket.accept()));
+					handleClient.setDaemon(true);
+					handleClient.start();
 					System.out.println("Client connected");
 				}
 				

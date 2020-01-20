@@ -30,7 +30,7 @@ public class Client {
 //				     ));
 	}
 	
-	boolean connect(String ip, int port) {
+	boolean connect(String ip, int port) {	
 		try {
 			clientSocket = new Socket();
 			clientSocket.connect(new InetSocketAddress(ip, port), 5000);
@@ -48,10 +48,10 @@ public class Client {
 	}
 	
 	void listen() {
-		new Thread(() -> {
+		Thread listenThread = new Thread(() -> {
 			isListening = true;
+			System.out.println("listen method started");
 			try {
-				System.out.println("listen method started");
 				while(isListening) {
 					input = new ObjectInputStream(
 							new BufferedInputStream(
@@ -68,7 +68,10 @@ public class Client {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		}).start();
+		});
+		
+		listenThread.setDaemon(true);
+		listenThread.start();
 	}
 
 	void closeConnections() {

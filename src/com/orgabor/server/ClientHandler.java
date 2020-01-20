@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 import com.orgabor.Message;
 
@@ -26,6 +27,8 @@ public class ClientHandler implements Runnable {
 							  clientSocket.getOutputStream()
 							  ));
 			
+		} catch(SocketException e) {
+			System.out.println("ClientHandler: Lost connection. " + e.getMessage());
 		} catch(IOException e) {
 			e.printStackTrace();
 		}	
@@ -38,17 +41,17 @@ public class ClientHandler implements Runnable {
 		try {
 			System.out.println("CliendHandler started");
 			while(isRunning) {	
-				if(input.available() > 0) {
-					Message message = (Message) input.readObject();
-					output.writeObject(message);
-				}
-				
+				Message message = (Message) input.readObject();
+				output.writeObject(message);
+
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
 					stop();	
 				}
 			}
 
+		} catch(NullPointerException e) {
+			System.out.println("ClientHandler: There is no input to read. " + e.getMessage());
 		} catch(IOException e) {
 			e.printStackTrace();
 		} catch(ClassNotFoundException e) {

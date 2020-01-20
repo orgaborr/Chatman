@@ -15,7 +15,7 @@ public class ChatmanClient extends Application {
 			primaryStage.setScene(new Scene(root, 400, 300));
 			primaryStage.show();
 			
-			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());
+			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());	
 			
 		} catch(Exception e) {
 			e.printStackTrace();
