@@ -1,5 +1,8 @@
 package com.orgabor.client;
 
+import com.orgabor.TimeTracker;
+
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -14,13 +17,16 @@ public class ClientController {
 	private Button sendButton;
 	
 	public void initialize() {
-		Client.getInstance().listen();
-		printMessage("Connected to server");
-		printMessage("test message");
+		if(Client.getInstance().connect("localhost", 5678)) {
+			Client.getInstance().listen();
+		}
+		printMessage(TimeTracker.getDate());
 	}
 	
 	@FXML
 	void printMessage(String text) {
 		chatTextArea.appendText(text + "\n");
 	}
+	
+
 }

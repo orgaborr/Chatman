@@ -25,6 +25,7 @@ public class ClientHandler implements Runnable {
 						  new BufferedOutputStream(
 							  clientSocket.getOutputStream()
 							  ));
+			
 		} catch(IOException e) {
 			e.printStackTrace();
 		}	

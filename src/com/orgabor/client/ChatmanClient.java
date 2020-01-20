@@ -1,7 +1,5 @@
 package com.orgabor.client;
 
-import com.orgabor.server.Server;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

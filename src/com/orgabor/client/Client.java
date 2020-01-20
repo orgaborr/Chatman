@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -20,20 +21,30 @@ public class Client {
 	private String incoming;
 	
 	//ip 92.249.164.76
-	private static Client client = new Client("localhost", 5678);
+	private static Client client = new Client();
 	
-	private Client(String ip, int port) {
+	private Client() {
+//		output = new ObjectOutputStream(
+//				 new BufferedOutputStream(
+//				     clientSocket.getOutputStream()
+//				     ));
+	}
+	
+	boolean connect(String ip, int port) {
 		try {
-			clientSocket = new Socket(ip, port);
+			clientSocket = new Socket();
+			clientSocket.connect(new InetSocketAddress(ip, port), 5000);
+			if(clientSocket.isConnected()) {
+				System.out.println("Connected to server");
+				return true;
+			}
 			
-			output = new ObjectOutputStream(
-					 new BufferedOutputStream(
-					     clientSocket.getOutputStream()
-					     ));
-			
+		} catch (SocketTimeoutException e) {
+			System.out.println("Connection timed out: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	void listen() {
