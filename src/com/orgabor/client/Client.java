@@ -25,15 +25,12 @@ public class Client {
 	private Client(String ip, int port) {
 		try {
 			clientSocket = new Socket(ip, port);
-			clientSocket.setSoTimeout(5000);
 			
 			output = new ObjectOutputStream(
 					 new BufferedOutputStream(
 					     clientSocket.getOutputStream()
 					     ));
 			
-		} catch (SocketTimeoutException e) {
-			System.out.println("Socket connection timed out: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
