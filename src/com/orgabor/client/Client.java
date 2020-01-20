@@ -17,7 +17,6 @@ public class Client {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
-	private boolean isListening;
 	private String incoming;
 	
 	//ip 92.249.164.76
@@ -28,6 +27,10 @@ public class Client {
 //				 new BufferedOutputStream(
 //				     clientSocket.getOutputStream()
 //				     ));
+	}
+	
+	static Client getInstance() {
+		return client;
 	}
 	
 	boolean connect(String ip, int port) {	
@@ -48,35 +51,33 @@ public class Client {
 	}
 	
 	void listen() {
-		Thread listenThread = new Thread(() -> {
-			isListening = true;
-			System.out.println("listen method started");
-			try {
-				while(isListening) {
-					input = new ObjectInputStream(
-							new BufferedInputStream(
-								clientSocket.getInputStream()
-								));
-					Message message = (Message) input.readObject();
-					incoming = message.getTimeSent() + message.getMessageText();
-				}
-
-			} catch (SocketException e) {
-				System.out.println("The socket was closed: " + e.getMessage());		
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-		
+		System.out.println("listen method started");
+		Thread listenThread = new Thread(() -> receiveMessages());	
 		listenThread.setDaemon(true);
 		listenThread.start();
+	}
+	
+	private void receiveMessages() {
+		try {
+			while(true) {
+				input = new ObjectInputStream(
+						new BufferedInputStream(
+								clientSocket.getInputStream()
+								));
+				Message message = (Message) input.readObject();
+				incoming = message.getTimeSent() + message.getMessageText();
+			}
+		} catch (SocketException e) {
+			System.out.println("Client: The socket was closed: " + e.getMessage());		
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	void closeConnections() {
 		try {
-			isListening = false;
 			input.close();
 			output.close();
 			clientSocket.close();
@@ -86,10 +87,6 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-	}
-	
-	static Client getInstance() {
-		return client;
 	}
 	
 }

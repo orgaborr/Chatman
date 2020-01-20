@@ -17,6 +17,10 @@ public class Server {
 		System.out.println("Server instantiated");
 	}
 	
+	static Server getInstance() {
+		return server;
+	}
+	
 	void runServer() {
 		new Thread(() ->  {
 			try {
@@ -50,8 +54,5 @@ public class Server {
 		isRunning = false;
 	}
 	
-	static Server getInstance() {
-		System.out.println("Server getInstance called");
-		return server;
-	}
+	
 }
