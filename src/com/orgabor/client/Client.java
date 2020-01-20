@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 
 import com.orgabor.Message;
 
@@ -22,8 +23,12 @@ public class Client {
 	private Client(String ip, int port) {
 		try {
 			clientSocket = new Socket(ip, port);
+			clientSocket.setSoTimeout(5000);
+			
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
+		} catch (SocketTimeoutException e) {
+			System.out.println("Socket connection timed out: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
