@@ -1,5 +1,7 @@
 package com.orgabor.client;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -25,7 +27,10 @@ public class Client {
 			clientSocket = new Socket(ip, port);
 			clientSocket.setSoTimeout(5000);
 			
-			output = new ObjectOutputStream(clientSocket.getOutputStream());
+			output = new ObjectOutputStream(
+					 new BufferedOutputStream(
+					     clientSocket.getOutputStream()
+					     ));
 			
 		} catch (SocketTimeoutException e) {
 			System.out.println("Socket connection timed out: " + e.getMessage());
@@ -40,7 +45,10 @@ public class Client {
 			try {
 				System.out.println("listen method started");
 				while(isListening) {
-					input = new ObjectInputStream(clientSocket.getInputStream());
+					input = new ObjectInputStream(
+							new BufferedInputStream(
+								clientSocket.getInputStream()
+								));
 					Message message = (Message) input.readObject();
 					incoming = message.getTimeSent() + message.getMessageText();
 				}
