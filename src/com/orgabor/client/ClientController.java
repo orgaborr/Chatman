@@ -33,11 +33,16 @@ public class ClientController {
 		chatTextArea.appendText(TimeTracker.getTime() + " " + text + "\n");
 	}
 
+	@FXML
+	void sendMessage() {
+		if(!messageField.getText().equals("")) {
+			Client.getInstance().send();
+		}
+	}
+	
 	TextField getMessageField() {
 		return messageField;
 	}
-	
-	
 	
 	
 }

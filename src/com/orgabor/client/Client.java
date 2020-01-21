@@ -78,13 +78,16 @@ public class Client {
 	}
 	
 	void send() {
-		String messageText = ChatmanClient.clientController.getMessageField().getText();
 		try {
+			String messageText = ChatmanClient.clientController.getMessageField().getText();
 			Message message = new Message(messageText);
 			output = new ObjectOutputStream(
 					 new BufferedOutputStream(
 					 clientSocket.getOutputStream()
 					 ));
+			
+			output.writeObject(message);
+			ChatmanClient.clientController.getMessageField().setText("");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
