@@ -6,14 +6,11 @@ import java.net.SocketException;
 
 public class Server {
 	private ServerSocket serverSocket;
-	private static int port;
+	private boolean isRunning;
 	
-	private boolean isRunning = true;
+	private static Server server = new Server();
 	
-	private static Server server = new Server(5678);
-	
-	private Server(int port) {
-		Server.port = port;
+	private Server() {
 		System.out.println("Server instantiated");
 	}
 	
@@ -21,10 +18,11 @@ public class Server {
 		return server;
 	}
 	
-	void runServer() {
-		new Thread(() ->  {
+	void runServer(int port) {
+		new Thread(() -> {
 			try {
 				serverSocket = new ServerSocket(port);
+				isRunning = true;
 				
 				System.out.println("Server running");
 				
@@ -44,14 +42,13 @@ public class Server {
 	}
 	
 	void closeConnections() {
+		isRunning = false;
 		try {
-			System.out.println("Server closeConnections called");
+			System.out.println("Server closeConnections() called");
 			serverSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		isRunning = false;
 	}
 	
 	

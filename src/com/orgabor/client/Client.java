@@ -52,28 +52,27 @@ public class Client {
 	
 	void listen() {
 		System.out.println("listen method started");
-		Thread listenThread = new Thread(() -> receiveMessages());	
+		Thread listenThread = new Thread(() -> {
+			try {
+				while(true) {
+					input = new ObjectInputStream(
+							new BufferedInputStream(
+									clientSocket.getInputStream()
+									));
+					Message message = (Message) input.readObject();
+					incoming = message.getTimeSent() + message.getMessageText();
+				}
+			} catch (SocketException e) {
+				System.out.println("Client: The socket was closed: " + e.getMessage());		
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
+		
 		listenThread.setDaemon(true);
 		listenThread.start();
-	}
-	
-	private void receiveMessages() {
-		try {
-			while(true) {
-				input = new ObjectInputStream(
-						new BufferedInputStream(
-								clientSocket.getInputStream()
-								));
-				Message message = (Message) input.readObject();
-				incoming = message.getTimeSent() + message.getMessageText();
-			}
-		} catch (SocketException e) {
-			System.out.println("Client: The socket was closed: " + e.getMessage());		
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	void closeConnections() {
