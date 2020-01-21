@@ -46,6 +46,7 @@ public class Server {
 		try {
 			System.out.println("Server closeConnections() called");
 			serverSocket.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

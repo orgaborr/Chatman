@@ -17,16 +17,27 @@ public class ClientController {
 	private Button sendButton;
 	
 	public void initialize() {
+		chatTextArea.appendText(TimeTracker.getDate() + "\n");
+		
 		if(Client.getInstance().connect("localhost", 5678)) {
 			Client.getInstance().listen();
+			printMessage("System: Connected to server");
+		} else {
+			printMessage("System: Connection failed");
 		}
-		printMessage(TimeTracker.getDate());
+		
 	}
 	
 	@FXML
 	void printMessage(String text) {
-		chatTextArea.appendText(text + "\n");
+		chatTextArea.appendText(TimeTracker.getTime() + " " + text + "\n");
+	}
+
+	TextField getMessageField() {
+		return messageField;
 	}
 	
-
+	
+	
+	
 }
