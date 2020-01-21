@@ -6,9 +6,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.SocketException;
 
 import com.orgabor.Message;
+import com.orgabor.TimeTracker;
 
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
@@ -17,21 +17,15 @@ public class ClientHandler implements Runnable {
 	
 	public ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
-		try {
-			this.input = new ObjectInputStream(
-						 new BufferedInputStream(
-							 clientSocket.getInputStream()
-							 ));
-			this.output = new ObjectOutputStream(
-						  new BufferedOutputStream(
-							  clientSocket.getOutputStream()
-							  ));
-			
-		} catch(SocketException e) {
-			System.out.println("ClientHandler: Lost connection. " + e.getMessage());
-		} catch(IOException e) {
-			e.printStackTrace();
-		}	
+//		try {
+//			
+//			
+//			System.out.println(TimeTracker.getTime() + " ClientHandler initialized");
+//		} catch(SocketException e) {
+//			System.out.println(TimeTracker.getTime() + "ClientHandler: Lost connection. " + e.getMessage());
+//		} catch(IOException e) {
+//			e.printStackTrace();
+//		}	
 	}
 
 	@Override
@@ -39,9 +33,19 @@ public class ClientHandler implements Runnable {
 		boolean isRunning = true;
 
 		try {
-			System.out.println("CliendHandler started");
-			while(isRunning) {	
+			System.out.println(TimeTracker.getTime() + "CliendHandler started");
+			while(isRunning) {
+				this.input = new ObjectInputStream(
+						 	 new BufferedInputStream(
+							 clientSocket.getInputStream()
+							 ));
 				Message message = (Message) input.readObject();
+				ChatmanServer.serverController.printMessage("Message received: " + message.getMessageText());
+				
+				this.output = new ObjectOutputStream(
+						  	  new BufferedOutputStream(
+							  clientSocket.getOutputStream()
+							  ));
 				output.writeObject(message);
 
 				if(!clientSocket.isConnected()) {

@@ -12,8 +12,6 @@ import java.net.SocketTimeoutException;
 
 import com.orgabor.Message;
 
-import javafx.fxml.FXMLLoader;
-
 public class Client {
 	private Socket clientSocket;
 	private ObjectInputStream input;
@@ -21,8 +19,6 @@ public class Client {
 
 	
 	private boolean isListening;
-	
-	private String incoming;
 	
 	//ip 92.249.164.76
 	private static Client client = new Client();
@@ -54,6 +50,7 @@ public class Client {
 	void listen() {
 		System.out.println("listen method started");
 		isListening = true;
+		
 		Thread listenThread = new Thread(() -> {
 			try {
 				while(isListening) {
@@ -62,8 +59,10 @@ public class Client {
 								clientSocket.getInputStream()
 								));
 					Message message = (Message) input.readObject();
-					incoming = message.getTimeSent() + message.getMessageText();
+					System.out.println("Recieving: " + message.getMessageText());
+					ChatmanClient.clientController.printMessage(message.getMessageText());
 				}
+				
 			} catch (SocketException e) {
 				System.out.println("Client: The socket was closed: " + e.getMessage());		
 			} catch (ClassNotFoundException e) {
@@ -81,6 +80,7 @@ public class Client {
 		try {
 			String messageText = ChatmanClient.clientController.getMessageField().getText();
 			Message message = new Message(messageText);
+			System.out.println("Sending message: " + message.getMessageText());
 			output = new ObjectOutputStream(
 					 new BufferedOutputStream(
 					 clientSocket.getOutputStream()

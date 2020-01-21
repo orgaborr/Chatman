@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.SocketException;
 
+import com.orgabor.TimeTracker;
+
 public class Server {
 	private ServerSocket serverSocket;
 	private boolean isRunning;
@@ -30,7 +32,7 @@ public class Server {
 					Thread handleClient = new Thread(new ClientHandler(serverSocket.accept()));
 					handleClient.setDaemon(true);
 					handleClient.start();
-					System.out.println("Client connected");
+					System.out.println(TimeTracker.getTime() + "Client connected");
 				}
 				
 			} catch (SocketException e) {

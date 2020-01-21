@@ -36,6 +36,7 @@ public class ClientController {
 	@FXML
 	void sendMessage() {
 		if(!messageField.getText().equals("")) {
+			printMessage("System: Message sent");
 			Client.getInstance().send();
 		}
 	}
