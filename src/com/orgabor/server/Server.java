@@ -32,7 +32,7 @@ public class Server {
 					Thread handleClient = new Thread(new ClientHandler(serverSocket.accept()));
 					handleClient.setDaemon(true);
 					handleClient.start();
-					System.out.println(TimeTracker.getTime() + "Client connected");
+					System.out.println(TimeTracker.getTime() + " Client connected");
 				}
 				
 			} catch (SocketException e) {

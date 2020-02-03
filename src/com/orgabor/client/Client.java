@@ -1,7 +1,5 @@
 package com.orgabor.client;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,6 +9,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import com.orgabor.Message;
+import com.orgabor.TimeTracker;
 
 public class Client {
 	private Socket clientSocket;
@@ -54,12 +53,9 @@ public class Client {
 		Thread listenThread = new Thread(() -> {
 			try {
 				while(isListening) {
-					input = new ObjectInputStream(
-							new BufferedInputStream(
-								clientSocket.getInputStream()
-								));
+					input = new ObjectInputStream(clientSocket.getInputStream());
 					Message message = (Message) input.readObject();
-					System.out.println("Recieving: " + message.getMessageText());
+					System.out.println(TimeTracker.getTime() + " Recieving: " + message.getMessageText());
 					ChatmanClient.clientController.printMessage(message.getMessageText());
 				}
 				
@@ -81,13 +77,9 @@ public class Client {
 			String messageText = ChatmanClient.clientController.getMessageField().getText();
 			Message message = new Message(messageText);
 			System.out.println("Sending message: " + message.getMessageText());
-			output = new ObjectOutputStream(
-					 new BufferedOutputStream(
-					 clientSocket.getOutputStream()
-					 ));
+			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 			output.writeObject(message);
-			ChatmanClient.clientController.getMessageField().setText("");
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -103,7 +95,7 @@ public class Client {
 			clientSocket.close();
 			
 		} catch (NullPointerException e) {
-			System.out.println("Connection was not established, therefore could not be closed");
+			System.out.println("Connection unavailable: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
