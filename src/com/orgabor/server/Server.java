@@ -2,20 +2,23 @@ package com.orgabor.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.orgabor.TimeTracker;
 
 public class Server {
 	private ServerSocket serverSocket;
 	private boolean isRunning;
+	private List<Socket> clients = new ArrayList<>();
 	
 	private static Server server = new Server();
 	
 	private Server() {
 		System.out.println("Server instantiated");
 	}
-	
 	static Server getInstance() {
 		return server;
 	}
@@ -54,5 +57,8 @@ public class Server {
 		}
 	}
 	
+	List<Socket> getClients() {
+		return clients;
+	}
 	
 }

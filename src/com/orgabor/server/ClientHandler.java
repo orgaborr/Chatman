@@ -16,7 +16,7 @@ public class ClientHandler implements Runnable {
 	private ObjectOutputStream output;
 	private Message message;
 	
-	public ClientHandler(Socket clientSocket) {
+	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;	
 	}
 
@@ -25,9 +25,14 @@ public class ClientHandler implements Runnable {
 		boolean isRunning = true;
 		try {
 			System.out.println(TimeTracker.getTime() + " CliendHandler started");
+			Server.getInstance().getClients().add(clientSocket);
+			
 			while(isRunning) {
 				receive();
-				send();		
+				for(Socket client : Server.getInstance().getClients()) {
+					send(client);
+				}
+				
 				
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
@@ -43,7 +48,7 @@ public class ClientHandler implements Runnable {
 		} catch(IOException e) {
 			e.printStackTrace();
 		} catch(ClassNotFoundException e) {
-			System.out.println("Class not found: " + e.getMessage());
+			System.out.println("Message class not found on reading");
 		}
 
 	}
@@ -53,8 +58,8 @@ public class ClientHandler implements Runnable {
 		this.message = (Message) input.readObject();
 	}
 	
-	private void send() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
-		this.output = new ObjectOutputStream(clientSocket.getOutputStream());
+	private void send(Socket socket) throws IOException {
+		this.output = new ObjectOutputStream(socket.getOutputStream());
 		output.writeObject(message);
 	}
 	
