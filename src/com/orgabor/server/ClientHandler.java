@@ -14,18 +14,10 @@ public class ClientHandler implements Runnable {
 	private Socket clientSocket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	private Message message;
 	
 	public ClientHandler(Socket clientSocket) {
-		this.clientSocket = clientSocket;
-//		try {
-//			
-//			
-//			System.out.println(TimeTracker.getTime() + " ClientHandler initialized");
-//		} catch(SocketException e) {
-//			System.out.println(TimeTracker.getTime() + "ClientHandler: Lost connection. " + e.getMessage());
-//		} catch(IOException e) {
-//			e.printStackTrace();
-//		}	
+		this.clientSocket = clientSocket;	
 	}
 
 	@Override
@@ -34,14 +26,9 @@ public class ClientHandler implements Runnable {
 		try {
 			System.out.println(TimeTracker.getTime() + " CliendHandler started");
 			while(isRunning) {
-				this.input = new ObjectInputStream(clientSocket.getInputStream());
-				System.out.println("ClientHandler: input received");
-				Message message = (Message) input.readObject();
-				ChatmanServer.serverController.printMessage("Message received: " + message.getMessageText());
+				receive();
+				send();		
 				
-				this.output = new ObjectOutputStream(clientSocket.getOutputStream());
-				output.writeObject(message);
-
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
 					stop();	
@@ -52,13 +39,23 @@ public class ClientHandler implements Runnable {
 		} catch(NullPointerException e) {
 			System.out.println("ClientHandler: There is no input to read. " + e.getMessage());
 		} catch(EOFException e) {
-			System.out.println("ClientHandler: EOF, reading input failed. " + e.getMessage());
+			System.out.println("ClientHandler: EOF while trying to read. " + e.getMessage());
 		} catch(IOException e) {
 			e.printStackTrace();
 		} catch(ClassNotFoundException e) {
 			System.out.println("Class not found: " + e.getMessage());
 		}
 
+	}
+	
+	private void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
+		this.input = new ObjectInputStream(clientSocket.getInputStream());
+		this.message = (Message) input.readObject();
+	}
+	
+	private void send() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
+		this.output = new ObjectOutputStream(clientSocket.getOutputStream());
+		output.writeObject(message);
 	}
 	
 	private void stop() throws IOException {
