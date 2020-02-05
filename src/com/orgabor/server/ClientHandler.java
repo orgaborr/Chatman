@@ -33,12 +33,12 @@ public class ClientHandler implements Runnable {
 					send(client);
 				}
 				
-				
 				if(!clientSocket.isConnected()) {
 					isRunning = false;
 					stop();	
 				}
 			}
+			
 		} catch(SocketException e) {
 			System.out.println("ClientHandler: reading input from socket failed. " + e.getMessage());
 		} catch(NullPointerException e) {
@@ -64,6 +64,7 @@ public class ClientHandler implements Runnable {
 	}
 	
 	private void stop() throws IOException {
+		Server.getInstance().getClients().remove(clientSocket);
 		input.close();
 		output.close();
 		clientSocket.close();
