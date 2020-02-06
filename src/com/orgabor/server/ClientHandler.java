@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
 
+import com.orgabor.Heartbeater;
 import com.orgabor.Message;
 import com.orgabor.TimeTracker;
 
@@ -15,6 +16,7 @@ public class ClientHandler implements Runnable {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private Message message;
+	private Heartbeater hb;
 	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;	
@@ -23,6 +25,8 @@ public class ClientHandler implements Runnable {
 	@Override
 	public void run() {
 		boolean isRunning = true;
+		new Thread(hb).start();
+		
 		try {
 			System.out.println(TimeTracker.getTime() + " CliendHandler started");
 			Server.getInstance().getClients().add(clientSocket);
@@ -33,9 +37,9 @@ public class ClientHandler implements Runnable {
 					send(client);
 				}
 				
-				if(!clientSocket.isConnected()) {
+				if(!hb.isRunning()) {
 					isRunning = false;
-					stop();	
+					stop();
 				}
 			}
 			

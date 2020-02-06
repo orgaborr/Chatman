@@ -29,5 +29,9 @@ public class Heartbeater implements Runnable {
 			}
 		}
 	}
+	
+	public boolean isRunning() {
+		return running;
+	}
 }
 
