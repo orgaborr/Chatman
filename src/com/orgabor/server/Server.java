@@ -33,7 +33,6 @@ public class Server {
 				
 				while(isRunning) {
 					Thread handleClient = new Thread(new ClientHandler(serverSocket.accept()));
-					handleClient.setDaemon(true);
 					handleClient.start();
 					System.out.println(TimeTracker.getTime() + " Client connected");
 				}

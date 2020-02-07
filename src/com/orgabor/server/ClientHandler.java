@@ -9,39 +9,33 @@ import java.net.SocketException;
 
 import com.orgabor.Heartbeater;
 import com.orgabor.Message;
-import com.orgabor.TimeTracker;
 
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private Message message;
-	private Heartbeater hb;
 	
 	ClientHandler(Socket clientSocket) {
-		this.clientSocket = clientSocket;	
+		this.clientSocket = clientSocket;
+		Server.getInstance().getClients().add(clientSocket);
 	}
 
 	@Override
 	public void run() {
-		boolean isRunning = true;
-		new Thread(hb).start();
-		
 		try {
-			System.out.println(TimeTracker.getTime() + " CliendHandler started");
-			Server.getInstance().getClients().add(clientSocket);
+			Thread heartbeat = new Thread(new ServerHeartbeater(clientSocket));
+			heartbeat.start();
 			
-			while(isRunning) {
+			while(heartbeat.isAlive()) {
 				receive();
 				for(Socket client : Server.getInstance().getClients()) {
 					send(client);
 				}
-				
-				if(!hb.isRunning()) {
-					isRunning = false;
-					stop();
-				}
 			}
+			
+			System.out.println("ClientHandler: Connection ended");
+			stop();
 			
 		} catch(SocketException e) {
 			System.out.println("ClientHandler: reading input from socket failed. " + e.getMessage());
@@ -54,11 +48,10 @@ public class ClientHandler implements Runnable {
 		} catch(ClassNotFoundException e) {
 			System.out.println("Message class not found on reading");
 		}
-
 	}
 	
 	private void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
-		this.input = new ObjectInputStream(clientSocket.getInputStream());
+		input = new ObjectInputStream(clientSocket.getInputStream());
 		this.message = (Message) input.readObject();
 	}
 	
@@ -67,10 +60,28 @@ public class ClientHandler implements Runnable {
 		output.writeObject(message);
 	}
 	
-	private void stop() throws IOException {
-		Server.getInstance().getClients().remove(clientSocket);
-		input.close();
-		output.close();
-		clientSocket.close();
+	private void stop() {
+		try {
+			Server.getInstance().getClients().remove(clientSocket);
+			input.close();
+			output.close();
+			clientSocket.close();
+
+		} catch(IOException e) {
+			System.out.println("Losing connection on ending ClientHandler. " + e.getMessage());
+		}
+	}
+	
+	private class ServerHeartbeater extends Heartbeater {
+
+		public ServerHeartbeater(Socket socket) {
+			super(socket);
+		}
+
+		@Override
+		public void end() {
+			stop();	
+		}
+
 	}
 }
