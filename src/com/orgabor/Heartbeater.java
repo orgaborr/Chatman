@@ -15,7 +15,7 @@ public abstract class Heartbeater implements Runnable {
 	public void run() {
 		while(true) {
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 				
 				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 				
@@ -29,10 +29,10 @@ public abstract class Heartbeater implements Runnable {
 				end();
 				break;
 			} catch (InterruptedException e) {
-				System.out.println("Hearbeater interrupted to stop for closure.");
+				System.out.println("Hearbeater interrupted, closing down.");
 				end();
 				break;
-			}	
+			}
 		}
 	}
 	

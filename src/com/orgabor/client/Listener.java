@@ -24,6 +24,7 @@ public class Listener implements Runnable {
 		System.out.println("Listener started");
 
 		Thread heartbeat = new Thread(new ClientHeartbeater(clientSocket));
+		heartbeat.setDaemon(true);
 		heartbeat.start();
 
 		try {

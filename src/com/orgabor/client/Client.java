@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import com.orgabor.Message;
@@ -28,7 +27,10 @@ public class Client {
 			clientSocket.connect(new InetSocketAddress(ip, port), 5000);
 			if(clientSocket.isConnected()) {
 				System.out.println("Connected to server");
-				new Thread(new Listener(clientSocket)).start();
+				Thread listen = new Thread(new Listener(clientSocket));
+				listen.setDaemon(true);
+				listen.start();
+				
 				return true;
 			}
 

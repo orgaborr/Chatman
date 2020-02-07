@@ -25,6 +25,7 @@ public class ClientHandler implements Runnable {
 	public void run() {
 		try {
 			Thread heartbeat = new Thread(new ServerHeartbeater(clientSocket));
+			heartbeat.setDaemon(true);
 			heartbeat.start();
 			
 			while(heartbeat.isAlive()) {
