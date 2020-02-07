@@ -20,7 +20,6 @@ public class ClientController {
 		chatTextArea.appendText(TimeTracker.getDate() + "\n");
 		
 		if(Client.getInstance().connect("localhost", 5678)) {
-			Client.getInstance().listen();
 			printMessage("System: Connected to server");
 		} else {
 			printMessage("System: Connection failed");
