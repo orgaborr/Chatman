@@ -1,5 +1,6 @@
 package com.orgabor.client;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -25,7 +26,6 @@ public class Listener implements Runnable {
 		Thread heartbeat = new Thread(new ClientHeartbeater(clientSocket));
 		heartbeat.start();
 
-
 		try {
 			while(heartbeat.isAlive()) {
 				receive();
@@ -39,12 +39,14 @@ public class Listener implements Runnable {
 			System.out.println("Client: The socket was closed: " + e.getMessage());		
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class not found: " + e.getMessage());
+		} catch (EOFException e) {	
+			System.out.println("Listener input failed: " + e.getMessage());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private synchronized void receive() throws SocketException, IOException, ClassNotFoundException {
+	private synchronized void receive() throws SocketException, EOFException, IOException, ClassNotFoundException {
 		input = new ObjectInputStream(clientSocket.getInputStream());
 		message = (Message) input.readObject();
 	}
@@ -62,7 +64,9 @@ public class Listener implements Runnable {
 				Client.getInstance().closeConnections();
 				
 			} catch (IOException e) {
-				System.out.println("Connection lost, closing connections. " + e.getMessage());
+				System.out.println("Closing Listener connections: " + e.getMessage());
+			} catch (NullPointerException e) {
+				System.out.println("Closing Listener connections: " + e.getMessage());
 			}
 		}
 	}

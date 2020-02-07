@@ -29,8 +29,10 @@ public abstract class Heartbeater implements Runnable {
 				end();
 				break;
 			} catch (InterruptedException e) {
-				System.out.println("Hearbeater woken up: " + e.getMessage());
-			}
+				System.out.println("Hearbeater interrupted to stop for closure.");
+				end();
+				break;
+			}	
 		}
 	}
 	

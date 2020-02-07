@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
 
 import com.orgabor.Message;
@@ -50,9 +51,8 @@ public class Client {
 			output.writeObject(message);
 			
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error on writing message: " + e.getMessage());
 		}
-		
 	}
 
 	void closeConnections() {
@@ -61,8 +61,10 @@ public class Client {
 			clientSocket.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
-		} 
+			System.out.println("Error closing Client socket: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.out.println("Error closing Client socket: " + e.getMessage());
+		}
 	}
 	
 }

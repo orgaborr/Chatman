@@ -63,18 +63,6 @@ public class ClientHandler implements Runnable {
 		output.writeObject(message);
 	}
 	
-	private void stop() {
-		try {
-			Server.getInstance().getClients().remove(clientSocket);
-			input.close();
-			output.close();
-			clientSocket.close();
-
-		} catch(IOException e) {
-			System.out.println("Losing connection on ending ClientHandler. " + e.getMessage());
-		}
-	}
-	
 	private class ServerHeartbeater extends Heartbeater {
 
 		public ServerHeartbeater(Socket socket) {
@@ -83,8 +71,17 @@ public class ClientHandler implements Runnable {
 
 		@Override
 		public void end() {
-			stop();	
-		}
+			try {
+				Server.getInstance().getClients().remove(clientSocket);
+				input.close();
+				output.close();
+				clientSocket.close();
 
+			} catch(IOException e) {
+				System.out.println("Error closing ClientHandler: " + e.getMessage());
+			} catch(NullPointerException e) {
+				System.out.println("Error closing ClientHandler: " + e.getMessage());
+			}
+		}
 	}
 }

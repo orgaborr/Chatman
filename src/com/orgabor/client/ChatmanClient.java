@@ -19,7 +19,7 @@ public class ChatmanClient extends Application {
 			primaryStage.show();
 			
 			clientController = loader.getController();
-			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());	
+			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());
 			
 		} catch(Exception e) {
 			e.printStackTrace();
