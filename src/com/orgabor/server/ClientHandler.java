@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable {
 	private Socket clientSocket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private volatile Message message;
+	private Message message;
 	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;

@@ -1,5 +1,6 @@
 package com.orgabor.client;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -15,6 +16,7 @@ public class Client {
 	private Socket clientSocket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
+	private Message message;
 
 	
 	private boolean isListening;
@@ -53,10 +55,11 @@ public class Client {
 		Thread listenThread = new Thread(() -> {
 			try {
 				while(isListening) {
-					input = new ObjectInputStream(clientSocket.getInputStream());
-					Message message = (Message) input.readObject();
-					System.out.println(TimeTracker.getTime() + " Recieving: " + message.getMessageText());
-					ChatmanClient.clientController.printMessage(message.getMessageText());
+					receive();
+					if(!message.getMessageText().equals("//ping")) {
+						System.out.println(TimeTracker.getTime() + " Recieving: " + message.getMessageText());
+						ChatmanClient.clientController.printMessage(message.getMessageText());
+					}
 				}
 				
 			} catch (SocketException e) {
@@ -70,6 +73,11 @@ public class Client {
 		
 		listenThread.setDaemon(true);
 		listenThread.start();
+	}
+	
+	private synchronized void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
+		input = new ObjectInputStream(clientSocket.getInputStream());
+		message = (Message) input.readObject();
 	}
 	
 	void send() {
