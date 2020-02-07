@@ -61,6 +61,7 @@ public class Listener implements Runnable {
 		@Override
 		public void end() {
 			try {
+				ChatmanClient.clientController.printMessage("Lost connection to Server");
 				input.close();
 				Client.getInstance().closeConnections();
 				

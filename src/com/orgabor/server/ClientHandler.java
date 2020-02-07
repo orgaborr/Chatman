@@ -10,6 +10,8 @@ import java.net.SocketException;
 import com.orgabor.Heartbeater;
 import com.orgabor.Message;
 
+import javafx.application.Platform;
+
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
 	private ObjectInputStream input;
@@ -18,7 +20,8 @@ public class ClientHandler implements Runnable {
 	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
-		Server.getInstance().getClients().add(clientSocket);
+		Runnable updateClientList = () -> Server.getInstance().getClients().add(clientSocket);
+		Platform.runLater(updateClientList);
 	}
 
 	@Override
@@ -73,7 +76,8 @@ public class ClientHandler implements Runnable {
 		@Override
 		public void end() {
 			try {
-				Server.getInstance().getClients().remove(clientSocket);
+				Runnable updateClientList = () -> Server.getInstance().getClients().remove(clientSocket);
+				Platform.runLater(updateClientList);
 				input.close();
 				output.close();
 				clientSocket.close();

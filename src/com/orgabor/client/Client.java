@@ -43,11 +43,9 @@ public class Client {
 		return false;
 	}
 	
-	void send() {
+	void send(String text) {
 		try {
-			String messageText = ChatmanClient.clientController.getMessageField().getText();
-			Message message = new Message(messageText);
-			System.out.println("Sending message: " + message.getMessageText());
+			Message message = new Message(text);
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 			output.writeObject(message);
