@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Message implements Serializable {
 	private String messageText;
+	private boolean ping;
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -13,6 +14,14 @@ public class Message implements Serializable {
 
 	public String getMessageText() {
 		return messageText;
+	}
+	
+	public boolean isPing() {
+		return ping;
+	}
+	
+	void setToPing() {
+		ping = true;
 	}
 	
 }

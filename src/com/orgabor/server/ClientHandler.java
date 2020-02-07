@@ -29,7 +29,7 @@ public class ClientHandler implements Runnable {
 			
 			while(heartbeat.isAlive()) {
 				receive();
-				if(!message.getMessageText().equals("//ping")) {
+				if(!message.isPing()) {
 					broadcast();
 				}			
 			}

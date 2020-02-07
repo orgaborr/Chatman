@@ -56,7 +56,7 @@ public class Client {
 			try {
 				while(isListening) {
 					receive();
-					if(!message.getMessageText().equals("//ping")) {
+					if(!message.isPing()) {
 						System.out.println(TimeTracker.getTime() + " Recieving: " + message.getMessageText());
 						ChatmanClient.clientController.printMessage(message.getMessageText());
 					}
