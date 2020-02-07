@@ -17,7 +17,7 @@ public abstract class Heartbeater implements Runnable {
 			try {
 				Thread.sleep(10000);
 				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
-				output.writeObject(new Message(""));
+				output.writeObject(new Message("//ping"));
 
 			} catch (IOException e) {
 				System.out.println("Heartbeater: Connection lost");

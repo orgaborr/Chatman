@@ -14,7 +14,7 @@ public class ClientHandler implements Runnable {
 	private Socket clientSocket;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Message message;
+	private volatile Message message;
 	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
@@ -29,13 +29,10 @@ public class ClientHandler implements Runnable {
 			
 			while(heartbeat.isAlive()) {
 				receive();
-				for(Socket client : Server.getInstance().getClients()) {
-					send(client);
-				}
+				if(!message.getMessageText().equals("//ping")) {
+					broadcast();
+				}			
 			}
-			
-			System.out.println("ClientHandler: Connection ended");
-			stop();
 			
 		} catch(SocketException e) {
 			System.out.println("ClientHandler: reading input from socket failed. " + e.getMessage());
@@ -50,9 +47,15 @@ public class ClientHandler implements Runnable {
 		}
 	}
 	
-	private void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
+	private synchronized void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
 		input = new ObjectInputStream(clientSocket.getInputStream());
 		this.message = (Message) input.readObject();
+	}
+	
+	private void broadcast() throws IOException {
+		for(Socket client : Server.getInstance().getClients()) {
+			send(client);
+		}
 	}
 	
 	private void send(Socket socket) throws IOException {
