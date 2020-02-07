@@ -4,15 +4,17 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.orgabor.TimeTracker;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Server {
 	private ServerSocket serverSocket;
 	private boolean isRunning;
-	private List<Socket> clients = new ArrayList<>();
+	private ObservableList<Socket> clients = FXCollections.observableArrayList();
 	
 	private static Server server = new Server();
 	
