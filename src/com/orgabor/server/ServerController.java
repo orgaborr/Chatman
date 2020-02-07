@@ -13,7 +13,7 @@ import javafx.scene.control.TextArea;
 
 public class ServerController {
 	@FXML
-	private TextArea textArea;
+	private TextArea textArea;	
 	@FXML
 	private Label clientCountLabel;
 	
@@ -22,9 +22,9 @@ public class ServerController {
 		textArea.appendText(TimeTracker.getDate() + "\n");
 		Server.getInstance().runServer(5678);
 		printMessage("Server initialized");
-		clientCountLabel.setText("Clients connected: " + clientListSize.get());
 		
-		clientCountLabel.textProperty().bind(clientListSize.asString());
+		IntegerBinding clientListSize = Bindings.size((ObservableList<Socket>) Server.getInstance().getClients());
+		clientCountLabel.textProperty().bind(clientListSize.asString());		
 	} 
 	
 	@FXML
@@ -32,6 +32,6 @@ public class ServerController {
 		textArea.appendText("[" + TimeTracker.getTime() + "] " + text + "\n");
 	}
 	
-	IntegerBinding clientListSize = Bindings.size((ObservableList<Socket>) Server.getInstance().getClients());
+	
 	
 }

@@ -83,9 +83,9 @@ public class ClientHandler implements Runnable {
 				clientSocket.close();
 
 			} catch(IOException e) {
-				System.out.println("Error closing ClientHandler: " + e.getMessage());
+				System.out.println("IOException closing ClientHandler: " + e.getMessage());
 			} catch(NullPointerException e) {
-				System.out.println("Error closing ClientHandler: " + e.getMessage());
+				System.out.println("NullPointerException on closing ClientHandler.");
 			}
 		}
 	}
