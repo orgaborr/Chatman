@@ -37,7 +37,9 @@ public class ClientController {
 	@FXML
 	void sendMessage() {
 		if(!messageField.getText().equals("")) {
-			Client.getInstance().send(messageField.getText());
+			if(!Client.getInstance().send(messageField.getText())) {
+				printMessage("Server is down");
+			};
 			messageField.setText("");
 		}
 	}

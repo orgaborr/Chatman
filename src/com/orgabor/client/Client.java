@@ -41,15 +41,17 @@ public class Client {
 		return false;
 	}
 	
-	void send(String text) {
+	boolean send(String text) {
 		try {
 			Message message = new Message(text);
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 			output.writeObject(message);
+			return true;
 			
 		} catch (IOException e) {
 			System.out.println("Error on writing message: " + e.getMessage());
+			return false;
 		}
 	}
 
