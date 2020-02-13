@@ -6,8 +6,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.List;
 
-import com.orgabor.TimeTracker;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -29,15 +27,19 @@ public class Server {
 		new Thread(() -> {
 			try {
 				serverSocket = new ServerSocket(port);
+				Socket client;
 				isRunning = true;
 				
 				System.out.println("Server running");
 				
 				while(isRunning) {
-					Thread handleClient = new Thread(new ClientHandler(serverSocket.accept()));
+					client = serverSocket.accept();
+					Thread handleClient = new Thread(new ClientHandler(client));
 					handleClient.setDaemon(true);
 					handleClient.start();
-					System.out.println(TimeTracker.getTime() + " Client connected");
+					ChatmanServer.serverController.printMessage("Client connected (" +
+																client.getRemoteSocketAddress().toString()
+																.substring(1) + ")");
 				}
 				
 			} catch (SocketException e) {

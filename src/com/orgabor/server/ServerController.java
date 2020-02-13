@@ -17,7 +17,6 @@ public class ServerController {
 	@FXML
 	private Label clientCountLabel;
 	
-	@FXML
 	public void initialize() {
 		textArea.appendText(TimeTracker.getDate() + "\n");
 		Server.getInstance().runServer(5678);
@@ -27,7 +26,6 @@ public class ServerController {
 		clientCountLabel.textProperty().bind(clientListSize.asString());		
 	} 
 	
-	@FXML
 	void printMessage(String text) {
 		textArea.appendText("[" + TimeTracker.getTime() + "] " + text + "\n");
 	}

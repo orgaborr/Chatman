@@ -79,7 +79,12 @@ public class ClientHandler implements Runnable {
 		@Override
 		public void end() {
 			try {
-				Runnable updateClientList = () -> Server.getInstance().getClients().remove(clientSocket);
+				Runnable updateClientList = () -> {
+					Server.getInstance().getClients().remove(clientSocket);
+					ChatmanServer.serverController.printMessage("Client disconnected (" +
+																clientSocket.getRemoteSocketAddress().toString()
+																.substring(1) + ")");
+				};
 				Platform.runLater(updateClientList);
 				
 				input.close();
