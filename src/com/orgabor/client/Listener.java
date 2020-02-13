@@ -50,6 +50,7 @@ public class Listener implements Runnable {
 		message = (Message) input.readObject();
 	}
 	
+	
 	private class ClientHeartbeater extends Heartbeater {
 
 		public ClientHeartbeater(Socket socket) {
@@ -70,5 +71,4 @@ public class Listener implements Runnable {
 			}
 		}
 	}
-	
 }

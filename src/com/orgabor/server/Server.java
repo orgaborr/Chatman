@@ -16,9 +16,8 @@ public class Server {
 	
 	private static Server server = new Server();
 	
-	private Server() {
-		System.out.println("Server instantiated");
-	}
+	private Server() {}
+	
 	static Server getInstance() {
 		return server;
 	}

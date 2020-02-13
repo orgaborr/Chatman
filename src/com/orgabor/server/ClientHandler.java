@@ -70,6 +70,7 @@ public class ClientHandler implements Runnable {
 		output.writeObject(message);
 	}
 	
+	
 	private class ServerHeartbeater extends Heartbeater {
 
 		public ServerHeartbeater(Socket socket) {
