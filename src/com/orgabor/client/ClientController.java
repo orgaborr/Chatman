@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 public class ClientController {
 	@FXML
@@ -32,7 +33,7 @@ public class ClientController {
 	void printMessage(String text) {
 		chatTextArea.appendText("[" + TimeTracker.getTime() + "] " + text + "\n");
 	}
-
+	
 	@FXML
 	void sendMessage() {
 		if(!messageField.getText().equals("")) {

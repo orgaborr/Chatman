@@ -12,7 +12,6 @@ public class Client {
 	private Socket clientSocket;
 	private ObjectOutputStream output;
 	
-	//ip 92.249.164.76
 	private static Client client = new Client();
 	
 	private Client() {}
@@ -26,7 +25,6 @@ public class Client {
 			clientSocket = new Socket();
 			clientSocket.connect(new InetSocketAddress(ip, port), 5000);
 			if(clientSocket.isConnected()) {
-				System.out.println("Connected to server");
 				Thread listen = new Thread(new Listener(clientSocket));
 				listen.setDaemon(true);
 				listen.start();

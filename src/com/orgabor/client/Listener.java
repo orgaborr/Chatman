@@ -8,7 +8,6 @@ import java.net.SocketException;
 
 import com.orgabor.Heartbeater;
 import com.orgabor.Message;
-import com.orgabor.TimeTracker;
 
 public class Listener implements Runnable {
 	private Socket clientSocket;
@@ -21,8 +20,6 @@ public class Listener implements Runnable {
 
 	@Override
 	public void run() {
-		System.out.println("Listener started");
-
 		Thread heartbeat = new Thread(new ClientHeartbeater(clientSocket));
 		heartbeat.setDaemon(true);
 		heartbeat.start();
@@ -31,7 +28,6 @@ public class Listener implements Runnable {
 			while(heartbeat.isAlive()) {
 				receive();
 				if(!message.isPing()) {
-					System.out.println(TimeTracker.getTime() + " Recieving: " + message.getMessageText());
 					ChatmanClient.clientController.printMessage(message.getMessageText());
 				}
 			}
@@ -43,11 +39,13 @@ public class Listener implements Runnable {
 		} catch (EOFException e) {	
 			System.out.println("Listener input failed: " + e.getMessage());
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("IOException on Listener: " + e.getMessage());
 		}
 	}
 	
-	private synchronized void receive() throws SocketException, EOFException, IOException, ClassNotFoundException {
+	private synchronized void receive() throws SocketException, EOFException,
+											   IOException, ClassNotFoundException {
+		
 		input = new ObjectInputStream(clientSocket.getInputStream());
 		message = (Message) input.readObject();
 	}
@@ -61,7 +59,7 @@ public class Listener implements Runnable {
 		@Override
 		public void end() {
 			try {
-				ChatmanClient.clientController.printMessage("Lost connection to Server");
+				ChatmanClient.clientController.printMessage("Connection lost");
 				input.close();
 				Client.getInstance().closeConnections();
 				

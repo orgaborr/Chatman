@@ -4,22 +4,31 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 public class ChatmanClient extends Application {
-	static ClientController clientController; 
-	
+	static ClientController clientController;
+
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		try {
 			FXMLLoader loader = new FXMLLoader(ClientController.class.getResource("ChatmanClient.fxml"));
 			Parent root = loader.load();
 			primaryStage.setTitle("Chatman");
-			primaryStage.setScene(new Scene(root, 400, 300));
+			
+			Scene primaryScene = new Scene(root, 400, 300);
+			primaryStage.setScene(primaryScene);
 			primaryStage.show();
 			
 			clientController = loader.getController();
-			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());
+			primaryScene.setOnKeyPressed(e -> {
+				if(e.getCode().equals(KeyCode.ENTER) ) {
+					clientController.sendMessage();
+				}
+			});
+			
+			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());	
 			
 		} catch(Exception e) {
 			e.printStackTrace();

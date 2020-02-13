@@ -20,7 +20,8 @@ public class ClientHandler implements Runnable {
 	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
-		Runnable updateClientList = () -> Server.getInstance().getClients().add(clientSocket);
+		
+		Runnable updateClientList = () -> Server.getInstance().getClients().add(clientSocket);								  
 		Platform.runLater(updateClientList);
 	}
 
@@ -41,17 +42,19 @@ public class ClientHandler implements Runnable {
 		} catch(SocketException e) {
 			System.out.println("ClientHandler: reading input from socket failed. " + e.getMessage());
 		} catch(NullPointerException e) {
-			System.out.println("ClientHandler: There is no input to read. " + e.getMessage());
+			System.out.println("ClientHandler: There is no input to read: " + e.getMessage());
 		} catch(EOFException e) {
-			System.out.println("ClientHandler: EOF while trying to read. " + e.getMessage());
+			System.out.println("ClientHandler: EOF while trying to read: " + e.getMessage());
 		} catch(IOException e) {
-			e.printStackTrace();
+			System.out.println("ClientHandler IOException: " + e.getMessage());;
 		} catch(ClassNotFoundException e) {
 			System.out.println("Message class not found on reading");
 		}
 	}
 	
-	private synchronized void receive() throws SocketException, NullPointerException, EOFException, IOException, ClassNotFoundException {
+	private synchronized void receive() throws SocketException, NullPointerException, EOFException,
+											   IOException, ClassNotFoundException {
+		
 		input = new ObjectInputStream(clientSocket.getInputStream());
 		this.message = (Message) input.readObject();
 	}
@@ -78,12 +81,13 @@ public class ClientHandler implements Runnable {
 			try {
 				Runnable updateClientList = () -> Server.getInstance().getClients().remove(clientSocket);
 				Platform.runLater(updateClientList);
+				
 				input.close();
 				output.close();
 				clientSocket.close();
 
 			} catch(IOException e) {
-				System.out.println("IOException closing ClientHandler: " + e.getMessage());
+				System.out.println("IOException on closing ClientHandler: " + e.getMessage());
 			} catch(NullPointerException e) {
 				System.out.println("NullPointerException on closing ClientHandler.");
 			}
