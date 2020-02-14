@@ -52,6 +52,9 @@ public class Server {
 		try {
 			System.out.println("Server closeConnections() called");
 			serverSocket.close();
+			for(Socket clientSocket : clients) {
+				clientSocket.close();
+			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
