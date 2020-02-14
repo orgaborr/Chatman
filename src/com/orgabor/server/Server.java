@@ -29,7 +29,7 @@ public class Server {
 				Socket client;
 				isRunning = true;
 				
-				System.out.println("Server running");
+				ChatmanServer.serverController.printMessage("Server initialized");
 				
 				while(isRunning) {
 					client = serverSocket.accept();
@@ -62,6 +62,10 @@ public class Server {
 	
 	List<Socket> getClients() {
 		return clients;
+	}
+	
+	boolean getIsRunning() {
+		return isRunning;
 	}
 	
 }

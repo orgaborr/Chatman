@@ -26,7 +26,7 @@
                </HBox.margin>
             </Label>
             <Label fx:id="clientCountLabel" prefHeight="25.0" prefWidth="25.0" text="0" />
-            <Button fx:id="runButton" mnemonicParsing="false" prefWidth="50.0" text="Run">
+            <Button fx:id="runButton" mnemonicParsing="false" prefWidth="50.0" text="Run" onAction="#startOnRunButton">
                <HBox.margin>
                   <Insets left="15.0" right="10.0" />
                </HBox.margin>

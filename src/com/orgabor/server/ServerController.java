@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class ServerController {
+	private int portNumber = 5678;
 	@FXML
 	private TextArea textArea;	
 	@FXML
@@ -24,8 +25,7 @@ public class ServerController {
 	
 	public void initialize() {
 		textArea.appendText(TimeTracker.getDate() + "\n");
-		Server.getInstance().runServer(5678);
-		printMessage("Server initialized");
+		Server.getInstance().runServer(portNumber);
 		
 		IntegerBinding clientListSize = Bindings.size((ObservableList<Socket>) Server.getInstance().getClients());
 		clientCountLabel.textProperty().bind(clientListSize.asString());		
@@ -35,6 +35,14 @@ public class ServerController {
 		textArea.appendText("[" + TimeTracker.getTime() + "] " + text + "\n");
 	}
 	
+	@FXML
+	private void startOnRunButton() {
+		if(!Server.getInstance().getIsRunning()) {
+			Server.getInstance().runServer(portNumber);
+		} else {
+			printMessage("Server is already running");
+		}
+	}
 	
 	
 }
