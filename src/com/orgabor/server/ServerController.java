@@ -8,7 +8,6 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
@@ -18,10 +17,6 @@ public class ServerController {
 	private TextArea textArea;	
 	@FXML
 	private Label clientCountLabel;
-	@FXML
-	private Button runButton;
-	@FXML
-	private Button terminateButton;
 	
 	public void initialize() {
 		textArea.appendText(TimeTracker.getDate() + "\n");
