@@ -44,5 +44,12 @@ public class ServerController {
 		}
 	}
 	
-	
+	@FXML
+	private void terminateOnButton() {
+		if(Server.getInstance().getIsRunning()) {
+			Server.getInstance().closeConnections();
+		} else {
+			printMessage("Server is already down");
+		}
+	}
 }
