@@ -49,7 +49,7 @@ public class ServerController {
 	private void terminateServer() {
 		if(Server.getInstance().getIsRunning()) {
 			Server.getInstance().closeConnections();
-			printMessage("Server shut down");
+			printMessage("Server shutdown");
 		} else {
 			printMessage("Server is already down");
 		}

@@ -8,6 +8,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ClientController {
+	private String ip = "localhost";
+	private int port = 5678;
 	@FXML
 	private TextArea chatTextArea;
 	@FXML
@@ -17,10 +19,11 @@ public class ClientController {
 	
 	public void initialize() {
 		chatTextArea.appendText(TimeTracker.getDate() + "\n");
-		tryConnect("localhost", 5678);
+		tryToConnect();
 	}
 	
-	void tryConnect(String ip, int port) {
+	@FXML
+	void tryToConnect() {
 		if(Client.getInstance().connect(ip, port)) {
 			printMessage("Connected to server");
 		} else {
@@ -41,4 +44,6 @@ public class ClientController {
 			messageField.setText("");
 		}
 	}
+	
+	
 }
