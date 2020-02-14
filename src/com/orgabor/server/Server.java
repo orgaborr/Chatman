@@ -29,8 +29,6 @@ public class Server {
 				Socket client;
 				isRunning = true;
 				
-				ChatmanServer.serverController.printMessage("Server initialized");
-				
 				while(isRunning) {
 					client = serverSocket.accept();
 					Thread handleClient = new Thread(new ClientHandler(client));

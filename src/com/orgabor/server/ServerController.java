@@ -25,7 +25,7 @@ public class ServerController {
 	
 	public void initialize() {
 		textArea.appendText(TimeTracker.getDate() + "\n");
-		Server.getInstance().runServer(portNumber);
+		startServer();
 		
 		IntegerBinding clientListSize = Bindings.size((ObservableList<Socket>) Server.getInstance().getClients());
 		clientCountLabel.textProperty().bind(clientListSize.asString());		
@@ -36,18 +36,20 @@ public class ServerController {
 	}
 	
 	@FXML
-	private void startOnRunButton() {
+	private void startServer() {
 		if(!Server.getInstance().getIsRunning()) {
 			Server.getInstance().runServer(portNumber);
+			printMessage("Server initialized");
 		} else {
 			printMessage("Server is already running");
 		}
 	}
 	
 	@FXML
-	private void terminateOnButton() {
+	private void terminateServer() {
 		if(Server.getInstance().getIsRunning()) {
 			Server.getInstance().closeConnections();
+			printMessage("Server shut down");
 		} else {
 			printMessage("Server is already down");
 		}
