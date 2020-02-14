@@ -6,7 +6,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.shape.Sphere?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.orgabor.server.ServerController">
    <center>
@@ -27,17 +26,12 @@
                </HBox.margin>
             </Label>
             <Label fx:id="clientCountLabel" prefHeight="25.0" prefWidth="25.0" text="0" />
-            <Button mnemonicParsing="false" prefWidth="50.0" text="Run">
+            <Button fx:id="runButton" mnemonicParsing="false" prefWidth="50.0" text="Run">
                <HBox.margin>
-                  <Insets left="10.0" right="5.0" />
+                  <Insets left="15.0" right="10.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Terminate" />
-            <Sphere radius="5.0">
-               <HBox.margin>
-                  <Insets left="7.0" top="7.0" />
-               </HBox.margin>
-            </Sphere>
+            <Button fx:id="terminateButton" mnemonicParsing="false" text="Terminate" />
          </children>
          <BorderPane.margin>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
