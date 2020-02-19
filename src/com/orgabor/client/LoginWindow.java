@@ -1,15 +1,15 @@
-package com.orgabor.client.login;
+package com.orgabor.client;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class LoginWindow {
-	public static LoginController loginController;
-	public static Stage loginStage;
+class LoginWindow {
+	static LoginController loginController;
+	static Stage loginStage;
 	
-	public static void openLoginWindow() {
+	static void openLoginWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml"));
 			Parent root = loader.load();

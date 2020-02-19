@@ -1,7 +1,6 @@
 package com.orgabor.client;
 
 import com.orgabor.TimeTracker;
-import com.orgabor.client.login.LoginWindow;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,8 +9,10 @@ import javafx.scene.control.TextField;
 
 public class ClientController {
 	private String ip = "localhost";
-	private String username;
 	private int port = 5678;
+	
+	private String username;
+	
 	@FXML
 	private TextArea chatTextArea;
 	@FXML
@@ -22,16 +23,25 @@ public class ClientController {
 	public void initialize() {
 		chatTextArea.appendText(TimeTracker.getDate() + "\n");
 		tryToConnect();
-		tryToLogin();
 	}
 	
 	@FXML
 	void tryToConnect() {
 		if(Client.getInstance().connect(ip, port)) {
-			printMessage("Connected to server");
+			tryToLogin();
+			printMessage("Connected to server as " + username);
 		} else {
 			printMessage("Connection failed");
 		}
+	}
+	
+	void tryToLogin() {
+		try {
+			LoginWindow.openLoginWindow();
+			System.out.println("Username: " + username);
+		} catch(Exception e) {
+			System.out.println("Exception on login: " + e.getMessage());
+		}	
 	}
 	
 	void printMessage(String text) {
@@ -48,15 +58,9 @@ public class ClientController {
 		}
 	}
 	
-	void tryToLogin() {
-		try {
-			LoginWindow.openLoginWindow();
-			username = LoginWindow.loginController.getUsername();
-			System.out.println("Username: " + username);
-		} catch(Exception e) {
-			System.out.println("Exception on login: " + e.getMessage());
-		}
-		
+	void setUsername(String username) {
+		this.username = username;
 	}
+	
 	
 }
