@@ -9,4 +9,10 @@ public class LoginController {
 	private TextField usernameField;
 	@FXML
 	private Button loginButton;
+	
+	@FXML
+	public String getUsername() {
+		return usernameField.getText();
+	}
+
 }
