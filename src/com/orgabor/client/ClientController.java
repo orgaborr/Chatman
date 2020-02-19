@@ -1,6 +1,7 @@
 package com.orgabor.client;
 
 import com.orgabor.TimeTracker;
+import com.orgabor.client.login.LoginWindow;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -9,6 +10,7 @@ import javafx.scene.control.TextField;
 
 public class ClientController {
 	private String ip = "localhost";
+	private String username;
 	private int port = 5678;
 	@FXML
 	private TextArea chatTextArea;
@@ -20,6 +22,7 @@ public class ClientController {
 	public void initialize() {
 		chatTextArea.appendText(TimeTracker.getDate() + "\n");
 		tryToConnect();
+		tryToLogin();
 	}
 	
 	@FXML
@@ -37,13 +40,23 @@ public class ClientController {
 	
 	@FXML
 	void sendMessage() {
-		if(!messageField.getText().equals("")) {
-			if(!Client.getInstance().send(messageField.getText())) {
+		if(!messageField.getText().trim().equals("")) {
+			if(!Client.getInstance().send(messageField.getText().trim())) {
 				printMessage("Server is down");
 			};
 			messageField.setText("");
 		}
 	}
 	
+	void tryToLogin() {
+		try {
+			LoginWindow.openLoginWindow();
+			username = LoginWindow.loginController.getUsername();
+			System.out.println("Username: " + username);
+		} catch(Exception e) {
+			System.out.println("Exception on login: " + e.getMessage());
+		}
+		
+	}
 	
 }

@@ -5,6 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
 public class LoginController {
+	private String username;
 	@FXML
 	private TextField usernameField;
 	@FXML
@@ -12,7 +13,11 @@ public class LoginController {
 	
 	@FXML
 	public String getUsername() {
-		return usernameField.getText();
+		if(!usernameField.getText().trim().equals("")) {
+			username = usernameField.getText();
+			LoginWindow.loginStage.close();
+		}
+		
+		return username;
 	}
-
 }

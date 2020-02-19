@@ -7,12 +7,13 @@ import javafx.stage.Stage;
 
 public class LoginWindow {
 	public static LoginController loginController;
+	public static Stage loginStage;
 	
-	public void openLoginWindow() {
+	public static void openLoginWindow() {
 		try {
 			FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml"));
 			Parent root = loader.load();
-			Stage loginStage = new Stage();
+			loginStage = new Stage();
 			loginStage.setTitle("Login");
 			
 			Scene loginScene = new Scene(root);
@@ -23,4 +24,5 @@ public class LoginWindow {
 			e.printStackTrace();
 		}
 	}
+	
 }
