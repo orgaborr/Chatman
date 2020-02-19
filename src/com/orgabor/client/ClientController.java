@@ -11,7 +11,7 @@ public class ClientController {
 	private String ip = "localhost";
 	private int port = 5678;
 	
-	private String username;
+	private volatile String username;
 	
 	@FXML
 	private TextArea chatTextArea;
@@ -29,7 +29,6 @@ public class ClientController {
 	void tryToConnect() {
 		if(Client.getInstance().connect(ip, port)) {
 			tryToLogin();
-			printMessage("Connected to server as " + username);
 		} else {
 			printMessage("Connection failed");
 		}
@@ -60,6 +59,10 @@ public class ClientController {
 	
 	void setUsername(String username) {
 		this.username = username;
+	}
+	
+	String getUsername() {
+		return username;
 	}
 	
 	
