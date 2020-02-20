@@ -27,8 +27,8 @@
             <Label text="Username: " GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
             <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="155.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
             		   GridPane.halignment="CENTER" GridPane.rowIndex="0" />
-            <Button fx:id="loginButton" mnemonicParsing="false" text="Login" GridPane.columnIndex="1" GridPane.halignment="CENTER"
-            		GridPane.rowIndex="3" onAction="#updateUsername"/>
+            <Button mnemonicParsing="false" text="Login" GridPane.columnIndex="1" GridPane.halignment="CENTER"
+            		GridPane.rowIndex="3" onAction="#updateUsername" defaultButton="true"/>
          </children>
       </GridPane>
    </content>

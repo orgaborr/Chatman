@@ -6,13 +6,11 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 class LoginWindow {
-	static LoginController loginController;
 	static Stage loginStage;
 	
 	static void openLoginWindow() {
 		try {
-			FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml"));
-			Parent root = loader.load();
+			Parent root = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml")).load();
 			loginStage = new Stage();
 			loginStage.setTitle("Login");
 			

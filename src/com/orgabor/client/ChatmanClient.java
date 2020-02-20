@@ -16,18 +16,10 @@ public class ChatmanClient extends Application {
 			FXMLLoader loader = new FXMLLoader(ClientController.class.getResource("ChatmanClient.fxml"));
 			Parent root = loader.load();
 			primaryStage.setTitle("Chatman");
-			
-			Scene primaryScene = new Scene(root, 400, 300);
-			primaryStage.setScene(primaryScene);
+			primaryStage.setScene(new Scene(root, 400, 300));
 			primaryStage.show();
 			
 			clientController = loader.getController();
-			primaryScene.setOnKeyPressed(e -> {
-				if(e.getCode().equals(KeyCode.ENTER) ) {
-					clientController.sendMessage();
-				}
-			});
-			
 			primaryStage.setOnCloseRequest(e -> Client.getInstance().closeConnections());	
 			
 		} catch(Exception e) {

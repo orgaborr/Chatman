@@ -17,8 +17,6 @@ public class ClientController {
 	private TextArea chatTextArea;
 	@FXML
 	private TextField messageField;
-	@FXML
-	private Button sendButton;
 	
 	public void initialize() {
 		chatTextArea.appendText(TimeTracker.getDate() + "\n");
@@ -34,10 +32,9 @@ public class ClientController {
 		}
 	}
 	
-	void tryToLogin() {
+	static void tryToLogin() {
 		try {
 			LoginWindow.openLoginWindow();
-			System.out.println("Username: " + username);
 		} catch(Exception e) {
 			System.out.println("Exception on login: " + e.getMessage());
 		}	
