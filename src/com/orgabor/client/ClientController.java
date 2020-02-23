@@ -3,7 +3,6 @@ package com.orgabor.client;
 import com.orgabor.TimeTracker;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -11,7 +10,7 @@ public class ClientController {
 	private String ip = "localhost";
 	private int port = 5678;
 	
-	private volatile String username;
+	private String username;
 	
 	@FXML
 	private TextArea chatTextArea;
@@ -47,7 +46,7 @@ public class ClientController {
 	@FXML
 	void sendMessage() {
 		if(!messageField.getText().trim().equals("")) {
-			if(!Client.getInstance().send(messageField.getText().trim())) {
+			if(!Client.getInstance().send(username, messageField.getText().trim())) {
 				printMessage("Server is down");
 			};
 			messageField.setText("");

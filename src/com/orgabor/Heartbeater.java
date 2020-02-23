@@ -19,7 +19,7 @@ public abstract class Heartbeater implements Runnable {
 				
 				ObjectOutputStream output = new ObjectOutputStream(socket.getOutputStream());
 				
-				Message pingMessage = new Message("");
+				Message pingMessage = new Message("","");
 				pingMessage.setToPing();
 				
 				output.writeObject(pingMessage);

@@ -41,9 +41,9 @@ public class Client {
 		return false;
 	}
 	
-	boolean send(String text) {
+	boolean send(String username, String text) {
 		try {
-			Message message = new Message(text);
+			Message message = new Message(username, text);
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
 			
 			output.writeObject(message);

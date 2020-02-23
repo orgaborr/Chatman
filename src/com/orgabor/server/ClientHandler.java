@@ -6,6 +6,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.orgabor.Heartbeater;
 import com.orgabor.Message;
@@ -18,11 +21,14 @@ public class ClientHandler implements Runnable {
 	private ObjectOutputStream output;
 	private Message message;
 	
+	private int clientId = Server.getInstance().getClientId();
+	
 	ClientHandler(Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		
-		Runnable updateClientList = () -> Server.getInstance().getClients().add(clientSocket);								  
-		Platform.runLater(updateClientList);
+		Runnable updateClientMap = () -> ((Map<Integer, Socket>) Server.getInstance().getClients()).put(clientId, clientSocket);
+		Server.getInstance().setClientId(clientId++);
+		Platform.runLater(updateClientMap);
 	}
 
 	@Override
@@ -60,9 +66,15 @@ public class ClientHandler implements Runnable {
 	}
 	
 	private void broadcast() throws IOException {
-		for(Socket client : Server.getInstance().getClients()) {
-			send(client);
+		Iterator<Entry<Integer, Socket>> clientIterator = Server.getInstance().
+														  getClients().entrySet().iterator();
+		while(clientIterator.hasNext()) {
+			send(clientIterator.next().getValue());
 		}
+		
+//		for(Socket client : Server.getInstance().getClients()) {
+//			send(client);
+//		}
 	}
 	
 	private void send(Socket socket) throws IOException {
@@ -80,13 +92,11 @@ public class ClientHandler implements Runnable {
 		@Override
 		public void end() {
 			try {
-				Runnable updateClientList = () -> {
-					Server.getInstance().getClients().remove(clientSocket);
-					ChatmanServer.serverController.printMessage("Client disconnected (" +
-																clientSocket.getRemoteSocketAddress().toString()
-																.substring(1) + ")");
+				Runnable removeClient = () -> {
+					((Map<Integer, Socket>) Server.getInstance().getClients()).remove(clientId);
+					ChatmanServer.serverController.printMessage("Client " + clientId + "disconnected");
 				};
-				Platform.runLater(updateClientList);
+				Platform.runLater(removeClient);
 				
 				input.close();
 				output.close();

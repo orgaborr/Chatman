@@ -28,7 +28,8 @@ public class Listener implements Runnable {
 			while(heartbeat.isAlive()) {
 				receive();
 				if(!message.isPing()) {
-					ChatmanClient.clientController.printMessage(message.getMessageText());
+					ChatmanClient.clientController.printMessage(
+					message.getUsername() + ": " + message.getMessageText());			
 				}
 			}
 

@@ -4,19 +4,25 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.List;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 
 public class Server {
 	private ServerSocket serverSocket;
 	private boolean isRunning;
-	private ObservableList<Socket> clients = FXCollections.observableArrayList();
+	private int clientId = 1;
+	private ObservableMap<Integer, Socket> clients;
 	
 	private static Server server = new Server();
 	
-	private Server() {}
+	private Server() {
+		//this.clients = FXCollections.observableArrayList();
+		this.clients = FXCollections.observableHashMap();
+	}
 	
 	static Server getInstance() {
 		return server;
@@ -52,21 +58,35 @@ public class Server {
 		try {
 			System.out.println("Server closeConnections() called");
 			serverSocket.close();
-			for(Socket clientSocket : clients) {
-				clientSocket.close();
-			}
+			closeClientSockets();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	List<Socket> getClients() {
+	private void closeClientSockets() throws IOException {
+		Iterator<Entry<Integer, Socket>> clientIterator = clients.entrySet().iterator();
+		while(clientIterator.hasNext()) {
+			clientIterator.next().getValue().close();
+		}
+		clientIterator.remove();
+	}
+	
+	Map<Integer, Socket> getClients() {
 		return clients;
 	}
 	
 	boolean getIsRunning() {
 		return isRunning;
+	}
+	
+	int getClientId() {
+		return clientId;
+	}
+	
+	void setClientId(int update) {
+		this.clientId = update;
 	}
 	
 }

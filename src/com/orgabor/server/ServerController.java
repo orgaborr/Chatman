@@ -6,7 +6,7 @@ import com.orgabor.TimeTracker;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.IntegerBinding;
-import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
@@ -22,8 +22,8 @@ public class ServerController {
 		textArea.appendText(TimeTracker.getDate() + "\n");
 		startServer();
 		
-		IntegerBinding clientListSize = Bindings.size((ObservableList<Socket>) Server.getInstance().getClients());
-		clientCountLabel.textProperty().bind(clientListSize.asString());		
+		IntegerBinding clientMapSize = Bindings.size((ObservableMap<Integer, Socket>) Server.getInstance().getClients());
+		clientCountLabel.textProperty().bind(clientMapSize.asString());		
 	} 
 	
 	void printMessage(String text) {
