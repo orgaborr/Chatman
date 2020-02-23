@@ -27,8 +27,9 @@ public class ClientHandler implements Runnable {
 		this.clientSocket = clientSocket;
 		
 		Runnable updateClientMap = () -> ((Map<Integer, Socket>) Server.getInstance().getClients()).put(clientId, clientSocket);
-		Server.getInstance().setClientId(clientId++);
 		Platform.runLater(updateClientMap);
+		
+		Server.getInstance().setNextClientId(clientId+1);
 	}
 
 	@Override
@@ -69,12 +70,10 @@ public class ClientHandler implements Runnable {
 		Iterator<Entry<Integer, Socket>> clientIterator = Server.getInstance().
 														  getClients().entrySet().iterator();
 		while(clientIterator.hasNext()) {
-			send(clientIterator.next().getValue());
+			Socket s = clientIterator.next().getValue();
+			send(s);
 		}
-		
-//		for(Socket client : Server.getInstance().getClients()) {
-//			send(client);
-//		}
+		clientIterator.remove();
 	}
 	
 	private void send(Socket socket) throws IOException {
@@ -94,7 +93,7 @@ public class ClientHandler implements Runnable {
 			try {
 				Runnable removeClient = () -> {
 					((Map<Integer, Socket>) Server.getInstance().getClients()).remove(clientId);
-					ChatmanServer.serverController.printMessage("Client " + clientId + "disconnected");
+					ChatmanServer.serverController.printMessage("Client " + clientId + " disconnected");
 				};
 				Platform.runLater(removeClient);
 				

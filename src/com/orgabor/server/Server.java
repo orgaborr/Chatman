@@ -14,13 +14,12 @@ import javafx.collections.ObservableMap;
 public class Server {
 	private ServerSocket serverSocket;
 	private boolean isRunning;
-	private int clientId = 1;
+	private volatile int nextClientId = 1;
 	private ObservableMap<Integer, Socket> clients;
 	
 	private static Server server = new Server();
 	
 	private Server() {
-		//this.clients = FXCollections.observableArrayList();
 		this.clients = FXCollections.observableHashMap();
 	}
 	
@@ -40,9 +39,7 @@ public class Server {
 					Thread handleClient = new Thread(new ClientHandler(client));
 					handleClient.setDaemon(true);
 					handleClient.start();
-					ChatmanServer.serverController.printMessage("Client connected (" +
-																client.getRemoteSocketAddress().toString()
-																.substring(1) + ")");
+					ChatmanServer.serverController.printMessage("Client " + nextClientId + " connected");
 				}
 				
 			} catch (SocketException e) {
@@ -82,11 +79,11 @@ public class Server {
 	}
 	
 	int getClientId() {
-		return clientId;
+		return nextClientId;
 	}
 	
-	void setClientId(int update) {
-		this.clientId = update;
+	void setNextClientId(int update) {
+		this.nextClientId = update;
 	}
 	
 }
