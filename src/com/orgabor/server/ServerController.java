@@ -23,7 +23,7 @@ public class ServerController {
 		startServer();
 		
 		IntegerBinding clientMapSize = Bindings.size((ObservableMap<Integer, Socket>) Server.getInstance().getClients());
-		clientCountLabel.textProperty().bind(clientMapSize.asString());		
+		clientCountLabel.textProperty().bind(clientMapSize.asString());
 	} 
 	
 	void printMessage(String text) {

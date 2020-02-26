@@ -17,14 +17,14 @@ import javafx.application.Platform;
 
 public class ClientHandler implements Runnable {
 	private Socket clientSocket;
+	private int clientId;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	private Message message;
 	
-	private int clientId = Server.getInstance().getClientId();
-	
-	ClientHandler(Socket clientSocket) {
+	ClientHandler(Socket clientSocket, int clientId) {
 		this.clientSocket = clientSocket;
+		this.clientId = Server.getInstance().getClientId();
 		
 		Runnable updateClientMap = () -> ((Map<Integer, Socket>) Server.getInstance().getClients()).put(clientId, clientSocket);
 		Platform.runLater(updateClientMap);
@@ -73,7 +73,6 @@ public class ClientHandler implements Runnable {
 			Socket s = clientIterator.next().getValue();
 			send(s);
 		}
-		clientIterator.remove();
 	}
 	
 	private void send(Socket socket) throws IOException {
@@ -91,11 +90,10 @@ public class ClientHandler implements Runnable {
 		@Override
 		public void end() {
 			try {
-				Runnable removeClient = () -> {
+				Platform.runLater(() -> {
 					((Map<Integer, Socket>) Server.getInstance().getClients()).remove(clientId);
 					ChatmanServer.serverController.printMessage("Client " + clientId + " disconnected");
-				};
-				Platform.runLater(removeClient);
+				});
 				
 				input.close();
 				output.close();

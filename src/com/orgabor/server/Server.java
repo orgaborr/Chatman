@@ -36,10 +36,11 @@ public class Server {
 				
 				while(isRunning) {
 					client = serverSocket.accept();
-					Thread handleClient = new Thread(new ClientHandler(client));
+					int id = nextClientId;
+					Thread handleClient = new Thread(new ClientHandler(client, id));
 					handleClient.setDaemon(true);
 					handleClient.start();
-					ChatmanServer.serverController.printMessage("Client " + nextClientId + " connected");
+					ChatmanServer.serverController.printMessage("Client " + id + " connected");
 				}
 				
 			} catch (SocketException e) {
@@ -67,7 +68,6 @@ public class Server {
 		while(clientIterator.hasNext()) {
 			clientIterator.next().getValue().close();
 		}
-		clientIterator.remove();
 	}
 	
 	Map<Integer, Socket> getClients() {
