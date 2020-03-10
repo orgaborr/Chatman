@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 
 public class ServerController {
-	private int portNumber = 5678;
 	@FXML
 	private TextArea textArea;	
 	@FXML
@@ -33,7 +32,7 @@ public class ServerController {
 	@FXML
 	private void startServer() {
 		if(!Server.getInstance().getIsRunning()) {
-			Server.getInstance().runServer(portNumber);
+			Server.getInstance().runServer();
 			printMessage("Server initialized");
 		} else {
 			printMessage("Server is already running");

@@ -2,6 +2,7 @@ package com.orgabor.client;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
@@ -12,6 +13,9 @@ public class Client {
 	private Socket clientSocket;
 	private ObjectOutputStream output;
 	
+	private InetAddress ip;
+	private int port;
+	
 	private static Client client = new Client();
 	
 	private Client() {}
@@ -20,8 +24,11 @@ public class Client {
 		return client;
 	}
 	
-	boolean connect(String ip, int port) {
+	boolean connect() {
 		try {
+			ip = InetAddress.getByName("192.168.100.6");
+			port = 5678;
+			
 			clientSocket = new Socket();
 			clientSocket.connect(new InetSocketAddress(ip, port), 5000);
 			if(clientSocket.isConnected()) {

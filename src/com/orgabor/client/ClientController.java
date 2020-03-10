@@ -7,9 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ClientController {
-	private String ip = "localhost";
-	private int port = 5678;
-	
+
 	private String username;
 	
 	@FXML
@@ -24,7 +22,7 @@ public class ClientController {
 	
 	@FXML
 	void tryToConnect() {
-		if(Client.getInstance().connect(ip, port)) {
+		if(Client.getInstance().connect()) {
 			tryToLogin();
 		} else {
 			printMessage("Connection failed");

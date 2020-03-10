@@ -13,6 +13,7 @@ import javafx.collections.ObservableMap;
 
 public class Server {
 	private ServerSocket serverSocket;
+	private int port = 5678;
 	private boolean isRunning;
 	private volatile int nextClientId = 1;
 	private ObservableMap<Integer, Socket> clients;
@@ -27,7 +28,7 @@ public class Server {
 		return server;
 	}
 	
-	void runServer(int port) {
+	void runServer() {
 		new Thread(() -> {
 			try {
 				serverSocket = new ServerSocket(port);
