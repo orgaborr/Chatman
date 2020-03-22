@@ -25,8 +25,9 @@ public class Client {
 	}
 	
 	boolean connect() {
+		closeConnections();
 		try {
-			ip = InetAddress.getByName("192.168.100.6");
+			ip = InetAddress.getByName("192.168.100.8");
 			port = 5678;
 			
 			clientSocket = new Socket();

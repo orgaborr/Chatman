@@ -20,11 +20,4 @@
          </children>
       </HBox>
    </bottom>
-   <top>
-      <ToolBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#tryToConnect" text="Connect" wrapText="true" />
-        </items>
-      </ToolBar>
-   </top>
 </BorderPane>
