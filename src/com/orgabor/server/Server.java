@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,11 +19,13 @@ public class Server {
 	private boolean isRunning;
 	private volatile int nextClientId = 1;
 	private ObservableMap<Integer, Socket> clients;
+	private List<String> usernames;
 	
 	private static Server server = new Server();
 	
 	private Server() {
 		this.clients = FXCollections.observableHashMap();
+		this.usernames = new ArrayList<>();
 	}
 	
 	static Server getInstance() {
@@ -85,6 +89,10 @@ public class Server {
 	
 	void setNextClientId(int update) {
 		this.nextClientId = update;
+	}
+	
+	List<String> getUsernames() {
+		return usernames;
 	}
 	
 }
