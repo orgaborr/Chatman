@@ -20,7 +20,8 @@ public class ClientHandler implements Runnable {
 	private int clientId;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Message message;
+	private volatile Message message;
+	private String username;
 	
 	ClientHandler(Socket clientSocket, int clientId) {
 		this.clientSocket = clientSocket;
@@ -42,8 +43,12 @@ public class ClientHandler implements Runnable {
 			while(heartbeat.isAlive()) {
 				receive();
 				if(!message.isPing()) {
-					broadcast();
-				}			
+					if(message.getUsername().equals("")) {
+						sendUsernameVerdict();
+					} else {
+						broadcast();
+					} 
+				}
 			}
 			
 		} catch(SocketException e) {
@@ -80,6 +85,16 @@ public class ClientHandler implements Runnable {
 		output.writeObject(message);
 	}
 	
+	private void sendUsernameVerdict() throws IOException {
+		if(Server.getInstance().userCheck(message.getMessageText())) {
+			username = message.getMessageText();
+			message = new Message("Server", "Username accepted");
+		} else {
+			message = new Message("Server", "Username taken");
+		}
+		send(clientSocket);
+	}
+	
 	
 	private class ServerHeartbeater extends Heartbeater {
 
@@ -92,6 +107,7 @@ public class ClientHandler implements Runnable {
 			try {
 				Platform.runLater(() -> {
 					((Map<Integer, Socket>) Server.getInstance().getClients()).remove(clientId);
+					Server.getInstance().getUsernames().remove(username);
 					ChatmanServer.serverController.printMessage("Client " + clientId + " disconnected");
 				});
 				

@@ -75,6 +75,16 @@ public class Server {
 		}
 	}
 	
+	boolean userCheck(String username) {
+		for(String user : usernames) {
+			if(user.equalsIgnoreCase(username)) {
+				return false;
+			}
+		}
+		usernames.add(username);
+		return true;
+	}
+	
 	Map<Integer, Socket> getClients() {
 		return clients;
 	}
