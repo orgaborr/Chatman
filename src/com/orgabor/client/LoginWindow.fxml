@@ -28,7 +28,7 @@
             <TextField fx:id="usernameField" prefHeight="25.0" prefWidth="155.0" GridPane.columnIndex="1" GridPane.columnSpan="2147483647"
             		   GridPane.halignment="CENTER" GridPane.rowIndex="0" />
             <Button mnemonicParsing="false" text="Login" GridPane.columnIndex="1" GridPane.halignment="CENTER"
-            		GridPane.rowIndex="3" onAction="#updateUsername" defaultButton="true"/>
+            		GridPane.rowIndex="3" onAction="#selectUsername" defaultButton="true"/>
          </children>
       </GridPane>
    </content>

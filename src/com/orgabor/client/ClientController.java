@@ -7,9 +7,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ClientController {
-
-	private String username;
-	
 	@FXML
 	private TextArea chatTextArea;
 	@FXML
@@ -43,21 +40,12 @@ public class ClientController {
 	
 	@FXML
 	void sendMessage() {
-		if(!messageField.getText().trim().equals("")) {
-			if(!Client.getInstance().send(username, messageField.getText().trim())) {
+		String msgText = messageField.getText().trim();
+		if(!msgText.equals("")) {
+			if(!Client.getInstance().send(msgText)) {
 				printMessage("Server is down");
 			};
 			messageField.setText("");
 		}
 	}
-	
-	void setUsername(String username) {
-		this.username = username;
-	}
-	
-	String getUsername() {
-		return username;
-	}
-	
-	
 }

@@ -12,9 +12,9 @@ import com.orgabor.Message;
 public class Client {
 	private Socket clientSocket;
 	private ObjectOutputStream output;
-	
 	private InetAddress ip;
 	private int port;
+	private String username;
 	
 	private static Client client = new Client();
 	
@@ -27,7 +27,7 @@ public class Client {
 	boolean connect() {
 		closeConnections();
 		try {
-			ip = InetAddress.getByName("192.168.100.8");
+			ip = InetAddress.getByName("192.168.100.6");
 			port = 5678;
 			
 			clientSocket = new Socket();
@@ -49,7 +49,7 @@ public class Client {
 		return false;
 	}
 	
-	boolean send(String username, String text) {
+	boolean send(String text) {
 		try {
 			Message message = new Message(username, text);
 			output = new ObjectOutputStream(clientSocket.getOutputStream());
@@ -75,4 +75,7 @@ public class Client {
 		}
 	}
 	
+	void setUsername(String username) {
+		this.username = username;
+	}	
 }

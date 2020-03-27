@@ -13,22 +13,22 @@ public class LoginController {
 	void selectUsername() {		
 		if(!usernameField.getText().trim().equals("")) {
 			username = usernameField.getText();
-			if(checkUsername()) {
+//			if(checkUsername()) {
 				updateUsername();
-			} else {
-				//add label message "Username already in use!"
-			}
+//			} else {
+//				//add label message "Username already in use!"
+//			}
 			LoginWindow.loginStage.close();
 		}
 	}
 	
-	boolean checkUsername() {
-		
-	}
+//	private boolean checkUsername() {
+//		Client.getInstance().send("Username check");
+//	}
 	
-	void updateUsername() {
+	private void updateUsername() {
 		Platform.runLater(() -> {
-			ChatmanClient.clientController.setUsername(username);
+			Client.getInstance().setUsername(username);
 			ChatmanClient.clientController.printMessage("Connected to server as " + username);		
 		});
 	}
