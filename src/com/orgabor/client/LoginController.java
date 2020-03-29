@@ -33,7 +33,7 @@ public class LoginController {
 				System.out.println("checkUsername interrupted while waiting for responce: " + e.getMessage());
 			}
 		}
-		if(serverResponse.equals("Username accepted")) {
+		if(serverResponse.equals("Username " + username + " accepted")) {
 			return true;
 		}
 		return false;

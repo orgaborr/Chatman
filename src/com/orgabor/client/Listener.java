@@ -29,7 +29,7 @@ public class Listener implements Runnable {
 				receive();
 				if(!message.isPing()) {
 					if(message.getUsername().equals("")) {
-						//send server response to LoginController
+						LoginWindow.loginController.setServerResponse(message.getMessageText());
 					} else {
 						ChatmanClient.clientController.printMessage(
 						message.getUsername() + ": " + message.getMessageText());

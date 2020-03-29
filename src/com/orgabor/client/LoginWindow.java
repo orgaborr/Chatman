@@ -7,12 +7,15 @@ import javafx.stage.Stage;
 
 class LoginWindow {
 	static Stage loginStage;
+	static LoginController loginController;
 	
 	static void openLoginWindow() {
 		try {
-			Parent root = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml")).load();
+			FXMLLoader loader = new FXMLLoader(LoginController.class.getResource("LoginWindow.fxml"));
+			Parent root = loader.load();
 			loginStage = new Stage();
 			loginStage.setTitle("Login");
+			loginController = loader.getController();
 			
 			Scene loginScene = new Scene(root);
 			loginStage.setScene(loginScene);
