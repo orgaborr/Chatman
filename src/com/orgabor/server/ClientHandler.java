@@ -88,9 +88,9 @@ public class ClientHandler implements Runnable {
 	private void sendUsernameVerdict() throws IOException {
 		if(Server.getInstance().userCheck(message.getMessageText())) {
 			username = message.getMessageText();
-			message = new Message("Server", "Username accepted");
+			message = new Message("Server", "Username " + username + " accepted");
 		} else {
-			message = new Message("Server", "Username taken");
+			message = new Message("Server", "Username " + username + " taken");
 		}
 		send(clientSocket);
 	}
